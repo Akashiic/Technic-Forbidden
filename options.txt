@@ -1,7 +1,7 @@
 invertYMouse:false
 mouseSensitivity:0.5
 fov:0.0
-gamma:0.0
+gamma:0.06
 saturation:0.0
 renderDistance:6
 guiScale:2
@@ -109,8 +109,7 @@ key_schematica.key.save:55
 key_schematica.key.control:74
 key_schematica.key.layerInc:0
 key_schematica.key.layerDec:0
-key_keys.armourersworkshop.equipmentWardrobe:23
-key_keys.armourersworkshop.undo:0
+key_key.aether.accessory_menu:0
 key_Baubles Inventory:0
 key_Change Wand Focus:33
 key_Activate Hover Harness:0
@@ -121,14 +120,13 @@ key_waila.keybind.liquid:80
 key_waila.keybind.recipe:81
 key_waila.keybind.usage:75
 key_waila.keybind.showadvanced:42
+key_ttmisc.toggleArmor:0
+key_keys.armourersworkshop.equipmentWardrobe:23
+key_keys.armourersworkshop.undo:0
 key_key.tarmor:0
 key_key.tgoggles:0
 key_key.tbelt:0
 key_key.tzoom:0
-key_keys.adventureBackpack.openInventory:0
-key_keys.adventureBackpack.toggleActions:0
-key_key.aether.accessory_menu:0
-key_ttmisc.toggleArmor:0
 key_Reload Shaders:0
 key_Toggle Shaders:0
 key_Shaderpack Selection Screen:0
@@ -184,16 +182,15 @@ key_Toggle Spider Climb:0
 key_Toggle Chameleon Skin:0
 key_key.amulet.desc:0
 key_wg.config.activateKey:0
-key_WorldEdit Reference:38
 key_key.cofh.empower:0
 key_key.cofh.multimode:0
-key_key.control:0
 key_key.ShapeGroups:46
 key_key.SpellBookNext:45
 key_key.SpellBookPrev:44
 key_key.AuraCustomization:0
 key_key.ToggleManaDisplay:24
 key_key.ActivateAffinityAbility:45
+key_key.control:0
 key_key.fastBlockPlacing.desc:0
 key_key.journeymap.map_toggle:36
 key_key.journeymap.zoom_in:13
