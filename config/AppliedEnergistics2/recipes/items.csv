@@ -296,10 +296,12 @@ appliedenergistics2:tile.BlockSkyCompass, Bússola de Meteoritos
 appliedenergistics2:tile.BlockGrinder, Rebolo de Quartzo
 appliedenergistics2:tile.BlockCrank, Manivela de Madeira
 appliedenergistics2:tile.BlockInscriber, Inscritor
+appliedenergistics2:tile.BlockAdvancedInscriber, Advanced Inscriber
 appliedenergistics2:tile.BlockWireless, Ponto de Acesso Sem Fio ME
 appliedenergistics2:tile.BlockCharger, Carregador
 appliedenergistics2:tile.BlockTinyTNT, TNT Minúscula
 appliedenergistics2:tile.BlockSecurity, Terminal de Segurança ME
+appliedenergistics2:tile.BlockStorageReshuffle, ME Storage Reshuffle
 appliedenergistics2:tile.BlockQuantumRing, Anel Quântico ME
 appliedenergistics2:tile.BlockQuantumLinkChamber, Câmara de Ligação Quântica ME
 appliedenergistics2:tile.BlockSpatialPylon, Pilão Espacial
@@ -367,6 +369,41 @@ appliedenergistics2:tile.ChiseledQuartzSlabBlock:0, Laje de Quartzo Certus Talha
 appliedenergistics2:tile.ChiseledQuartzSlabBlock.double:0, Laje de Quartzo Certus Talhadas
 appliedenergistics2:tile.QuartzPillarSlabBlock:0, Laje de Pilar de Quartzo Certus
 appliedenergistics2:tile.QuartzPillarSlabBlock.double:0, Laje de Pilar de Quartzo Certus
+appliedenergistics2:tile.BlockWirelessConnector:0, Wireless Connector
+appliedenergistics2:tile.BlockWirelessConnector:1, Wireless Connector
+appliedenergistics2:tile.BlockWirelessConnector:2, Wireless Connector
+appliedenergistics2:tile.BlockWirelessConnector:3, Wireless Connector
+appliedenergistics2:tile.BlockWirelessConnector:4, Wireless Connector
+appliedenergistics2:tile.BlockWirelessConnector:5, Wireless Connector
+appliedenergistics2:tile.BlockWirelessConnector:6, Wireless Connector
+appliedenergistics2:tile.BlockWirelessConnector:7, Wireless Connector
+appliedenergistics2:tile.BlockWirelessConnector:8, Wireless Connector
+appliedenergistics2:tile.BlockWirelessConnector:9, Wireless Connector
+appliedenergistics2:tile.BlockWirelessConnector:10, Wireless Connector
+appliedenergistics2:tile.BlockWirelessConnector:11, Wireless Connector
+appliedenergistics2:tile.BlockWirelessConnector:12, Wireless Connector
+appliedenergistics2:tile.BlockWirelessConnector:13, Wireless Connector
+appliedenergistics2:tile.BlockWirelessConnector:14, Wireless Connector
+appliedenergistics2:tile.BlockWirelessConnector:15, Wireless Connector
+appliedenergistics2:tile.BlockWirelessConnector:16, Wireless Connector
+appliedenergistics2:tile.BlockWirelessHub:0, Wireless Hub
+appliedenergistics2:tile.BlockWirelessHub:1, Wireless Hub
+appliedenergistics2:tile.BlockWirelessHub:2, Wireless Hub
+appliedenergistics2:tile.BlockWirelessHub:3, Wireless Hub
+appliedenergistics2:tile.BlockWirelessHub:4, Wireless Hub
+appliedenergistics2:tile.BlockWirelessHub:5, Wireless Hub
+appliedenergistics2:tile.BlockWirelessHub:6, Wireless Hub
+appliedenergistics2:tile.BlockWirelessHub:7, Wireless Hub
+appliedenergistics2:tile.BlockWirelessHub:8, Wireless Hub
+appliedenergistics2:tile.BlockWirelessHub:9, Wireless Hub
+appliedenergistics2:tile.BlockWirelessHub:10, Wireless Hub
+appliedenergistics2:tile.BlockWirelessHub:11, Wireless Hub
+appliedenergistics2:tile.BlockWirelessHub:12, Wireless Hub
+appliedenergistics2:tile.BlockWirelessHub:13, Wireless Hub
+appliedenergistics2:tile.BlockWirelessHub:14, Wireless Hub
+appliedenergistics2:tile.BlockWirelessHub:15, Wireless Hub
+appliedenergistics2:tile.BlockWirelessHub:16, Wireless Hub
+appliedenergistics2:tile.BlockCrystalGrowthChamber, Crystal Growth Chamber
 ae2stuff:Encoder, Codificador de Padrões
 ae2stuff:Grower, Câmara de Crescimento de Cristais
 ae2stuff:Inscriber, Inscritor Avançado
@@ -405,11 +442,6 @@ ae2stuff:Wireless:31, Wireless Connector
 ae2stuff:Wireless:32, Wireless Connector
 ae2stuff:Wireless:33, Wireless Connector
 IC2:blockOreCopper, ic2.blockOreCopper.name
-IC2:blockOreTin, ic2.blockOreTin.name
-IC2:blockOreUran, ic2.blockOreUran.name
-IC2:blockOreLead, ic2.blockOreLead.name
-IC2:blockRubWood, ic2.blockRubWood.name
-IC2:blockRubLeaves, ic2.blockRubLeaves.name
 minecraft:iron_shovel, Pá de Ferro
 minecraft:iron_pickaxe, Picareta de Ferro
 minecraft:iron_axe, Machado de Ferro
@@ -687,6 +719,7 @@ minecraft:skull:0, Crânio de Esqueleto
 minecraft:skull:1, Crânio de Esqueleto Wither
 minecraft:skull:2, Cabeça de Zumbi
 minecraft:skull:3, Cabeça
+minecraft:skull:3, Cabeça de Roadhog360
 minecraft:skull:4, Cabeça de Creeper
 minecraft:carrot_on_a_stick, Cenoura no Palito
 minecraft:nether_star, Estrela do Nether
@@ -699,20 +732,25 @@ minecraft:netherbrick, Tijolo do Nether
 minecraft:quartz, Quartzo do Nether
 minecraft:tnt_minecart, Carrinho com Dinamite
 minecraft:hopper_minecart, Carrinho com Funil
+IC2:blockOreTin, ic2.blockOreTin.name
+IC2:blockOreUran, ic2.blockOreUran.name
+IC2:blockOreLead, ic2.blockOreLead.name
+IC2:blockRubWood, ic2.blockRubWood.name
+IC2:blockRubLeaves, ic2.blockRubLeaves.name
 IC2:blockRubSapling, ic2.blockRubSapling.name
 IC2:blockHarz, ic2.blockHarz.name
 IC2:blockRubber, ic2.blockRubber.name
-IC2:blockFenceIron, ic2.blockFenceIron.name
-IC2:blockAlloy, ic2.blockAlloy.name
-IC2:blockBasalt, ic2.blockBasalt.name
-IC2:blockAlloyGlass, ic2.blockAlloyGlass.name
-IC2:blockDoorAlloy, tile.blockDoorAlloy.name
 minecraft:iron_horse_armor, Armadura de Ferro para Cavalo
 minecraft:golden_horse_armor, Armadura de Ouro para Cavalo
 minecraft:diamond_horse_armor, Armadura de Diamante para Cavalo
 minecraft:lead, Laço
 minecraft:name_tag, Etiqueta
 minecraft:command_block_minecart, Carrinho com Bloco de Comando
+IC2:blockFenceIron, ic2.blockFenceIron.name
+IC2:blockAlloy, ic2.blockAlloy.name
+IC2:blockBasalt, ic2.blockBasalt.name
+IC2:blockAlloyGlass, ic2.blockAlloyGlass.name
+IC2:blockDoorAlloy, tile.blockDoorAlloy.name
 IC2:blockReinforcedFoam, ic2.blockReinforcedFoam.name
 IC2:blockFoam, ic2.blockFoam.name
 IC2:blockWall, ic2.blockWall.name
@@ -2538,6 +2576,7 @@ AgriCraft:seedStorage:0, Seed Storage
 AgriCraft:seedStorage:0, Seed Storage
 AgriCraft:seedStorage:0, Seed Storage
 AgriCraft:seedStorage:0, Seed Storage
+AgriCraft:peripheral, Computer Controlled Seed Analyzer
 AgriCraft:fence:0, Fence
 AgriCraft:fence:0, Fence
 AgriCraft:fence:0, Fence
@@ -3318,6 +3357,9 @@ atum:tile.thinFramedStainedGlass:15, White Stained Thin Framed Glass
 atum:tile.slab, tile.slab.name
 atum:tile.doubleSlab, Laje de Calcário 
 atum:tile.walls, tile.walls.name
+avaritiaddons:CompressedChest, Baú Comprimido
+avaritiaddons:InfinityChest, Baú do Infinito
+avaritiaddons:ExtremeAutoCrafter, Mesa de Trabalho do Dire Automática
 BiblioCraft:tile.BiblioFramedChest:0, Baú Encaixilhado
 BiblioCraft:BiblioPaneler:0, Paineladora de Mobília de Carvalho
 BiblioCraft:BiblioPaneler:1, Paineladora de Mobília de Pinheiro
@@ -3797,7 +3839,7 @@ BuildCraft|Core:pathMarkerBlock, Marcador de Caminhos
 ExtraUtilities:chestMini, Mini-Chest
 ExtraUtilities:chestFull, Slightly Larger Chest
 ExtraUtilities:enderCollector, Ender Collector
-ExtraUtilities:endConstructor:0, DEQ (Dispositivo Enquadradador Quântico)
+ExtraUtilities:endConstructor:0, DEQ (Dispositivo Extremamente Questionador)
 ExtraUtilities:endConstructor:2, Cristal de Ender-Fluxo
 ExtraUtilities:endMarker, Marcador do Fim
 ExtraUtilities:curtains, Curtinas de Blackout
@@ -5083,7 +5125,7 @@ TwilightForest:tile.ForceField:3, Green Force Field
 TwilightForest:tile.ForceField:4, Blue Force Field
 TwilightForest:tile.CinderFurnaceIdle, Cinder Furnace
 TwilightForest:tile.CinderFurnaceLit, Cinder Furnace
-TwilightForest:tile.CinderLog:0, tile.CinderLog.0.name
+TwilightForest:tile.CinderLog:0, Cinder Log
 TwilightForest:tile.CastleDoor:0, Blue Castle Door
 TwilightForest:tile.CastleDoor:1, Yellow Castle Door
 TwilightForest:tile.CastleDoor:2, Pink Castle Door
@@ -5111,6 +5153,11 @@ chisel:andesite:3, Andesite
 chisel:andesite:4, Andesite
 chisel:andesite:5, Andesite
 chisel:andesite:6, Andesite
+chisel:andesite:7, Andesite
+chisel:andesite:8, Andesite
+chisel:andesite:9, Andesite
+chisel:andesite:10, Andesite
+chisel:andesite:11, Andesite
 chisel:antiBlock:0, Anti Block
 chisel:antiBlock:1, Anti Block
 chisel:antiBlock:2, Anti Block
@@ -5170,11 +5217,23 @@ chisel:bookshelf:5, Bookshelf
 chisel:bookshelf:6, Bookshelf
 chisel:bookshelf:7, Bookshelf
 chisel:bookshelf:8, Bookshelf
+chisel:brickCustom2:0, Brick Block
+chisel:brickCustom2:1, Brick Block
 chisel:brickCustom:1, Brick Block
 chisel:brickCustom:2, Brick Block
 chisel:brickCustom:3, Brick Block
+chisel:brickCustom:4, Brick Block
 chisel:brickCustom:5, Brick Block
 chisel:brickCustom:6, Brick Block
+chisel:brickCustom:7, Brick Block
+chisel:brickCustom:8, Brick Block
+chisel:brickCustom:9, Brick Block
+chisel:brickCustom:10, Brick Block
+chisel:brickCustom:11, Brick Block
+chisel:brickCustom:12, Brick Block
+chisel:brickCustom:13, Brick Block
+chisel:brickCustom:14, Brick Block
+chisel:brickCustom:15, Brick Block
 chisel:bronzeblock:0, Block of Bronze
 chisel:bronzeblock:1, Block of Bronze
 chisel:bronzeblock:2, Block of Bronze
@@ -5259,6 +5318,29 @@ chisel:concrete:7, Concrete
 chisel:concrete:8, Concrete
 chisel:concrete:9, Concrete
 chisel:concrete:10, Concrete
+chisel:concrete_slab:0, Concrete Slab
+chisel:concrete_slab:1, Concrete Slab
+chisel:concrete_slab:2, Concrete Slab
+chisel:concrete_slab:3, Concrete Slab
+chisel:concrete_slab:4, Concrete Slab
+chisel:concrete_slab:5, Concrete Slab
+chisel:concrete_slab:6, Concrete Slab
+chisel:concrete_slab:7, Concrete Slab
+chisel:concrete_slab:8, Concrete Slab
+chisel:concrete_slab:9, Concrete Slab
+chisel:concrete_slab:10, Concrete Slab
+chisel:concrete_slab_top, Concrete Slab
+chisel:concrete_stairs.0:0, Concrete Stairs
+chisel:concrete_stairs.0:8, Concrete Stairs
+chisel:concrete_stairs.1:0, Concrete Stairs
+chisel:concrete_stairs.1:8, Concrete Stairs
+chisel:concrete_stairs.2:0, Concrete Stairs
+chisel:concrete_stairs.2:8, Concrete Stairs
+chisel:concrete_stairs.3:0, Concrete Stairs
+chisel:concrete_stairs.3:8, Concrete Stairs
+chisel:concrete_stairs.4:0, Concrete Stairs
+chisel:concrete_stairs.4:8, Concrete Stairs
+chisel:concrete_stairs.5:0, Concrete Stairs
 chisel:copperblock:0, Block of Copper
 chisel:copperblock:1, Block of Copper
 chisel:copperblock:2, Block of Copper
@@ -5293,6 +5375,7 @@ chisel:diamond_block:9, Diamond Block
 chisel:diamond_block:10, Diamond Block
 chisel:diamond_block:11, Diamond Block
 chisel:diamond_block:12, Diamond Block
+chisel:diamond_block:13, Diamond Block
 chisel:diorite:0, Diorite
 chisel:diorite:1, Diorite
 chisel:diorite:2, Diorite
@@ -5300,6 +5383,12 @@ chisel:diorite:3, Diorite
 chisel:diorite:4, Diorite
 chisel:diorite:5, Diorite
 chisel:diorite:6, Diorite
+chisel:diorite:7, Diorite
+chisel:diorite:8, Diorite
+chisel:diorite:9, Diorite
+chisel:diorite:10, Diorite
+chisel:diorite:11, Diorite
+chisel:diorite:12, Diorite
 chisel:dirt:0, Dirt
 chisel:dirt:1, Dirt
 chisel:dirt:2, Dirt
@@ -5327,6 +5416,7 @@ chisel:emerald_block:8, Emerald Block
 chisel:emerald_block:9, Emerald Block
 chisel:emerald_block:10, Emerald Block
 chisel:emerald_block:11, Emerald Block
+chisel:emerald_block:12, Emerald Block
 chisel:end_Stone:0, End Stone
 chisel:end_Stone:1, End Stone
 chisel:end_Stone:2, End Stone
@@ -5431,6 +5521,7 @@ chisel:glass:13, Glass
 chisel:glass:14, Glass
 chisel:glass:15, Glass
 chisel:glass2:0, Glass
+chisel:glass2:1, Glass
 chisel:glass_pane:1, Glass Pane
 chisel:glass_pane:2, Glass Pane
 chisel:glass_pane:3, Glass Pane
@@ -5666,6 +5757,7 @@ chisel:gold_block:11, Gold Block
 chisel:gold_block:12, Gold Block
 chisel:gold_block:13, Gold Block
 chisel:gold_block:14, Gold Block
+chisel:gold_block:15, Gold Block
 chisel:granite:0, Granite
 chisel:granite:1, Granite
 chisel:granite:2, Granite
@@ -5673,6 +5765,11 @@ chisel:granite:3, Granite
 chisel:granite:4, Granite
 chisel:granite:5, Granite
 chisel:granite:6, Granite
+chisel:granite:7, Granite
+chisel:granite:8, Granite
+chisel:granite:9, Granite
+chisel:granite:10, Granite
+chisel:granite:11, Granite
 chisel:grimstone:0, Grimstone
 chisel:grimstone:1, Grimstone
 chisel:grimstone:2, Grimstone
@@ -6317,6 +6414,7 @@ chisel:lapis_block:5, Lapis Block
 chisel:lapis_block:6, Lapis Block
 chisel:lapis_block:7, Lapis Block
 chisel:lapis_block:8, Lapis Block
+chisel:lapis_block:9, Lapis Block
 chisel:lavastone:0, Lavastone
 chisel:lavastone:1, Lavastone
 chisel:lavastone:2, Lavastone
@@ -7110,6 +7208,17 @@ chisel:moss:7, Moss
 chisel:moss:8, Moss
 chisel:moss:9, Moss
 chisel:moss:10, Moss
+chisel:moss_carpet:0, Moss Carpet
+chisel:moss_carpet:1, Moss Carpet
+chisel:moss_carpet:2, Moss Carpet
+chisel:moss_carpet:3, Moss Carpet
+chisel:moss_carpet:4, Moss Carpet
+chisel:moss_carpet:5, Moss Carpet
+chisel:moss_carpet:6, Moss Carpet
+chisel:moss_carpet:7, Moss Carpet
+chisel:moss_carpet:8, Moss Carpet
+chisel:moss_carpet:9, Moss Carpet
+chisel:moss_carpet:10, Moss Carpet
 chisel:electrumblock:0, Block of Electrum
 chisel:electrumblock:1, Block of Electrum
 chisel:electrumblock:2, Block of Electrum
@@ -7201,6 +7310,114 @@ chisel:cobaltblock:3, Block of Cobalt
 chisel:cobaltblock:4, Block of Cobalt
 chisel:cobaltblock:5, Block of Cobalt
 chisel:cobaltblock:6, Block of Cobalt
+chisel:coral:0, Coral
+chisel:coral:1, Coral
+chisel:coral:2, Coral
+chisel:coral:3, Coral
+chisel:coral:4, Coral
+chisel:coral:5, Coral
+chisel:coral:6, Coral
+chisel:coral:7, Coral
+chisel:coral:8, Coral
+chisel:coral:9, Coral
+chisel:coral:10, Coral
+chisel:coral:11, Coral
+chisel:coral:12, Coral
+chisel:coral:13, Coral
+chisel:coral:14, Coral
+chisel:coral:15, Coral
+chisel:mud:0, Mud
+chisel:mud:1, Mud
+chisel:mud:2, Mud
+chisel:mud:3, Mud
+chisel:mud:4, Mud
+chisel:mud:5, Mud
+chisel:mud:6, Mud
+chisel:albumblock2:0, Musical Block
+chisel:albumblock2:1, Musical Block
+chisel:albumblock2:2, Musical Block
+chisel:albumblock:0, Musical Block
+chisel:albumblock:1, Musical Block
+chisel:albumblock:2, Musical Block
+chisel:albumblock:3, Musical Block
+chisel:albumblock:4, Musical Block
+chisel:albumblock:5, Musical Block
+chisel:albumblock:6, Musical Block
+chisel:albumblock:7, Musical Block
+chisel:albumblock:8, Musical Block
+chisel:albumblock:9, Musical Block
+chisel:albumblock:10, Musical Block
+chisel:albumblock:11, Musical Block
+chisel:albumblock:12, Musical Block
+chisel:albumblock:13, Musical Block
+chisel:albumblock:14, Musical Block
+chisel:albumblock:15, Musical Block
+chisel:brutalism:0, Brutalist Block
+chisel:brutalism:1, Brutalist Block
+chisel:brutalism:2, Brutalist Block
+chisel:brutalism:3, Brutalist Block
+chisel:brutalism:4, Brutalist Block
+chisel:brutalism:5, Brutalist Block
+chisel:brutalism:6, Brutalist Block
+chisel:brutalism:7, Brutalist Block
+chisel:brutalism:8, Brutalist Block
+chisel:brutalism:9, Brutalist Block
+chisel:porcelain:0, Porcelain Block
+chisel:porcelain:1, Porcelain Block
+chisel:porcelain:2, Porcelain Block
+chisel:porcelain:3, Porcelain Block
+chisel:porcelain:4, Porcelain Block
+chisel:porcelain:5, Porcelain Block
+chisel:porcelain:6, Porcelain Block
+chisel:porcelain:7, Porcelain Block
+chisel:porcelain:9, Porcelain Block
+chisel:porcelain:10, Porcelain Block
+chisel:porcelain:11, Porcelain Block
+chisel:porcelain:12, Porcelain Block
+chisel:porcelain:13, Porcelain Block
+chisel:alabaster:0, Alabaster Block
+chisel:alabaster:1, Alabaster Block
+chisel:alabaster:2, Alabaster Block
+chisel:alabaster:3, Alabaster Block
+chisel:alabaster:4, Alabaster Block
+chisel:alabaster:5, Alabaster Block
+chisel:alabaster:6, Alabaster Block
+chisel:alabaster:7, Alabaster Block
+chisel:alabaster:8, Alabaster Block
+chisel:alabaster:9, Alabaster Block
+chisel:alabaster:10, Alabaster Block
+chisel:road2:0, Road Block
+chisel:road2:1, Road Block
+chisel:road2:2, Road Block
+chisel:road2:3, Road Block
+chisel:road2:4, Road Block
+chisel:road2:5, Road Block
+chisel:road2:6, Road Block
+chisel:road2:7, Road Block
+chisel:road2:8, Road Block
+chisel:road2:9, Road Block
+chisel:road2:10, Road Block
+chisel:road2:11, Road Block
+chisel:road2:12, Road Block
+chisel:road2:13, Road Block
+chisel:road2:14, Road Block
+chisel:road2:15, Road Block
+chisel:road:0, Road Block
+chisel:road:1, Road Block
+chisel:road:2, Road Block
+chisel:road:3, Road Block
+chisel:road:4, Road Block
+chisel:road:5, Road Block
+chisel:road:6, Road Block
+chisel:road:7, Road Block
+chisel:road:8, Road Block
+chisel:road:9, Road Block
+chisel:road:10, Road Block
+chisel:road:11, Road Block
+chisel:road:12, Road Block
+chisel:road:13, Road Block
+chisel:road:14, Road Block
+chisel:road:15, Road Block
 customnpcs:npcRedstoneBlock, Bloco de Redstone
 customnpcs:npcCarpentyBench:0, Mesa de Carpintaria
 customnpcs:npcCarpentyBench:1, Bigorna
@@ -7928,6 +8145,18 @@ etfuturum:deepslate_coal_ore, Deepslate Coal Ore
 etfuturum:deepslate_iron_ore, Deepslate Iron Ore
 etfuturum:deepslate_gold_ore, Deepslate Gold Ore
 etfuturum:deepslate_redstone_ore, Deepslate Redstone Ore
+minecraft:record_13, Disco de Música
+minecraft:record_cat, Disco de Música
+minecraft:record_blocks, Disco de Música
+minecraft:record_chirp, Disco de Música
+minecraft:record_far, Disco de Música
+minecraft:record_mall, Disco de Música
+minecraft:record_mellohi, Disco de Música
+minecraft:record_stal, Disco de Música
+minecraft:record_strad, Disco de Música
+minecraft:record_ward, Disco de Música
+minecraft:record_11, Disco de Música
+minecraft:record_wait, Disco de Música
 etfuturum:deepslate_lapis_ore, Deepslate Lapis Lazuli Ore
 etfuturum:deepslate_diamond_ore, Deepslate Diamond Ore
 etfuturum:deepslate_emerald_ore, Deepslate Emerald Ore
@@ -7962,18 +8191,6 @@ etfuturum:end_brick_slab, Unnamed Block, report to mod author.
 etfuturum:double_end_brick_slab, Unnamed Block, report to mod author.
 etfuturum:deepslate_slab:0, Cobbled Deepslate Slab
 etfuturum:deepslate_slab:1, Polished Deepslate Slab
-minecraft:record_13, Disco de Música
-minecraft:record_cat, Disco de Música
-minecraft:record_blocks, Disco de Música
-minecraft:record_chirp, Disco de Música
-minecraft:record_far, Disco de Música
-minecraft:record_mall, Disco de Música
-minecraft:record_mellohi, Disco de Música
-minecraft:record_stal, Disco de Música
-minecraft:record_strad, Disco de Música
-minecraft:record_ward, Disco de Música
-minecraft:record_11, Disco de Música
-minecraft:record_wait, Disco de Música
 etfuturum:deepslate_brick_slab:0, Deepslate Brick Slab
 etfuturum:deepslate_brick_slab:1, Deepslate Tile Slab
 etfuturum:tuff_slab:0, Tuff Slab
@@ -9027,13 +9244,16 @@ ExtraTiC:moltenConstantan, Molten Constantan
 ExtraTiC:blockFunStuff:0, Fairy Block
 ExtraTiC:blockFunStuff:1, Pokefennium Block
 ExtraTiC:blockFunStuff:2, RedAurum Block
+ForgeRelocation:relocation.blockmovingrow:0, tile.relocation.blockmovingrow|0.name
+MCFrames:mcframes.motor:0, Debug Frame Motor
+MCFrames:mcframes.frame, Frame
 gadomancy:BlockStickyJar, Sticky Jar
 gadomancy:BlockArcaneDropper, Arcane Dropper
 gadomancy:BlockInfusionClaw, Infusion Claw
 gadomancy:BlockRemoteJar, Mirrored Jar
 gadomancy:BlockExtendedNodeJar, Node in a Jar
 gadomancy:BlockNodeManipulator:5, Node Manipulator
-gadomancy:BlockStoneMachine:0, Machine
+gadomancy:BlockStoneMachine:0, Randomization Focus
 gadomancy:BlockStoneMachine:1, Ancient Pedestal
 gadomancy:BlockStoneMachine:2, Arcane Enervation Emitter
 gadomancy:BlockStoneMachine:3, Redirection Focus
@@ -9177,6 +9397,9 @@ MagicBees:magicbees.enchantedEarth, Enchanted Earth
 MagicBees:hive:0, Curious Hive
 MagicBees:hive:1, Unusual Hive
 MagicBees:hive:2, Resonating Hive
+MagicBees:hive:3, Deep Hive
+MagicBees:hive:4, Infernal Hive
+MagicBees:hive:5, Oblivion Hive
 MagicBees:effectJar, Bee Collector's Jar
 MagicBees:magicApiary, Magic Apiary
 MagicBees:manaAuraProvider, Mana Apiary Booster
@@ -10345,6 +10568,44 @@ OpenBlocks:sky:1, Sky Block
 OpenBlocks:xpshower, XP Shower
 OpenBlocks:goldenegg, Golden Egg
 OpenBlocks:scaffolding, Scaffolding
+OpenComputers:accessPoint:0, §cPonto de Acesso§7
+OpenComputers:adapter:0, Adaptador
+OpenComputers:assembler:0, Montador Eletrônico
+OpenComputers:cable:0, Cabo
+OpenComputers:capacitor:0, Capacitador
+OpenComputers:case1:0, Gabinete (Nível 1)
+OpenComputers:case3:0, Gabinete (Nível 3)
+OpenComputers:case2:0, Gabinete (Nível 2)
+OpenComputers:charger:0, Carregador
+OpenComputers:disassembler:0, Desmontador
+OpenComputers:diskDrive:0, Unidade de Disco
+OpenComputers:geolyzer:0, Geonalizador
+OpenComputers:hologram1:0, Projetor Holográfico (Nível 1)
+OpenComputers:hologram2:0, Projetor Holográfico (Nível 2)
+OpenComputers:keyboard:0, Teclado
+OpenComputers:motionSensor:0, Sensor de Movimento
+OpenComputers:powerConverter:0, Conversor de Energia
+OpenComputers:powerDistributor:0, Distribuidor de Energia
+OpenComputers:raid:0, Raid
+OpenComputers:redstone:0, E/S de Redstone
+OpenComputers:relay:0, Relé
+OpenComputers:screen1:0, Monitor (Nível 1)
+OpenComputers:screen3:0, Monitor (Nível 3)
+OpenComputers:screen2:0, Monitor (Nível 2)
+OpenComputers:rack:0, Rack
+OpenComputers:switch:0, §cSwitch§7
+OpenComputers:caseCreative:0, Gabinete (Criativo)
+OpenComputers:microcontroller:0, Microcontrolador
+OpenComputers:robotAfterimage:0, Robô
+OpenComputers:robot:0, Robot
+OpenComputers:print:0, Impressão 3D
+OpenComputers:printer:0, Impressora 3D
+OpenComputers:chameliumBlock:0, Bloco Camaleão
+OpenComputers:waypoint:0, Ponto de Passagem
+OpenComputers:endstone:0, Pedra do Fim
+OpenComputers:netSplitter:0, Divisor de Rede
+OpenComputers:transposer:0, Transpositor
+OpenComputers:carpetedCapacitor:0, Capacitador com Tapete
 runicdungeons:tile.runicBrick:0, Dungeon Bricks (Unbreakable)
 runicdungeons:tile.runicBrick:1, Mossy Dungeon Bricks (Unbreakable)
 runicdungeons:tile.runicBrick:2, Cracked Dungeon Bricks (Unbreakable)
@@ -11661,7 +11922,7 @@ appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Blue Castle Rune Brick
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Yellow Castle Rune Brick
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Pink Castle Rune Brick
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Violet Castle Rune Brick
-appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - tile.CinderLog.0.name
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Cinder Log
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Blue Castle Door
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Yellow Castle Door
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Pink Castle Door
@@ -11679,6 +11940,11 @@ appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Andesite
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Andesite
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Andesite
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Andesite
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Andesite
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Andesite
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Andesite
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Andesite
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Andesite
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Anti Block
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Anti Block
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Anti Block
@@ -11726,6 +11992,18 @@ appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Brick Block
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Brick Block
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Brick Block
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Brick Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Brick Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Brick Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Brick Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Brick Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Brick Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Brick Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Brick Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Brick Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Brick Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Brick Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Brick Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Brick Block
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Block of Bronze
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Block of Bronze
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Block of Bronze
@@ -11823,6 +12101,7 @@ appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Diamond Block
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Diamond Block
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Diamond Block
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Diamond Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Diamond Block
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Diorite
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Diorite
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Diorite
@@ -11830,6 +12109,12 @@ appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Diorite
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Diorite
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Diorite
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Diorite
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Diorite
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Diorite
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Diorite
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Diorite
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Diorite
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Diorite
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Dirt
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Dirt
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Dirt
@@ -11846,6 +12131,7 @@ appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Dirt
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Dirt
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Dirt
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Dirt
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Emerald Block
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Emerald Block
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Emerald Block
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Emerald Block
@@ -11945,6 +12231,7 @@ appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Futura Circuit
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Futura Circuit
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Futura Circuit
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Futura Circuit
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Glass
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Glass
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Glass
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Glass
@@ -12092,6 +12379,12 @@ appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Gold Block
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Gold Block
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Gold Block
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Gold Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Gold Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Granite
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Granite
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Granite
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Granite
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Granite
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Granite
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Granite
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Granite
@@ -12672,6 +12965,7 @@ appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Laboratory Block
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Laboratory Block
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Laboratory Block
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Laboratory Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Lapis Block
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Lapis Block
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Lapis Block
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Lapis Block
@@ -13402,6 +13696,114 @@ appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Block of Cobalt
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Block of Cobalt
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Block of Cobalt
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Block of Cobalt
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Coral
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Coral
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Coral
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Coral
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Coral
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Coral
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Coral
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Coral
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Coral
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Coral
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Coral
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Coral
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Coral
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Coral
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Coral
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Coral
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Mud
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Mud
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Mud
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Mud
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Mud
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Mud
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Mud
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Musical Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Musical Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Musical Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Musical Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Musical Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Musical Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Musical Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Musical Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Musical Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Musical Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Musical Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Musical Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Musical Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Musical Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Musical Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Musical Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Musical Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Musical Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Musical Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Brutalist Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Brutalist Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Brutalist Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Brutalist Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Brutalist Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Brutalist Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Brutalist Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Brutalist Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Brutalist Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Brutalist Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Porcelain Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Porcelain Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Porcelain Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Porcelain Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Porcelain Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Porcelain Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Porcelain Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Porcelain Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Porcelain Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Porcelain Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Porcelain Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Porcelain Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Porcelain Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Alabaster Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Alabaster Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Alabaster Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Alabaster Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Alabaster Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Alabaster Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Alabaster Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Alabaster Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Alabaster Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Alabaster Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Alabaster Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Road Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Road Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Road Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Road Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Road Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Road Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Road Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Road Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Road Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Road Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Road Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Road Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Road Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Road Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Road Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Road Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Road Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Road Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Road Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Road Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Road Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Road Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Road Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Road Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Road Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Road Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Road Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Road Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Road Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Road Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Road Block
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Road Block
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Placeholder
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Placeholder
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Placeholder
@@ -13997,6 +14399,9 @@ appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Mossy Cracked Stone Br
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Curious Hive
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Unusual Hive
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Resonating Hive
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Deep Hive
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Infernal Hive
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Oblivion Hive
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Thorium Ore
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Ruby Ore
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Sapphire Ore
@@ -14372,6 +14777,8 @@ appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Crimson Crafting Table
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Warped Crafting Table
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Foxfire Crafting Table
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Elevador
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Bloco Camaleão
+appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Pedra do Fim
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Dungeon Bricks (Unbreakable)
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Mossy Dungeon Bricks (Unbreakable)
 appliedenergistics2:item.ItemFacade:0, Fachada de Cabos - Cracked Dungeon Bricks (Unbreakable)
@@ -14521,6 +14928,8 @@ appliedenergistics2:item.ItemPaintBall:32, Bola de Tinta - Lumen Marrom
 appliedenergistics2:item.ItemPaintBall:33, Bola de Tinta - Lumen Verde
 appliedenergistics2:item.ItemPaintBall:34, Bola de Tinta - Lumen Vermelho
 appliedenergistics2:item.ItemPaintBall:35, Bola de Tinta - Lumen Preto
+appliedenergistics2:item.ToolNetworkVisualiser, Network Visualisation Tool
+appliedenergistics2:item.ToolWirelessKit, Wireless Kit
 appliedenergistics2:item.ItemMultiMaterial:0, Cristal de Quartzo Certus
 appliedenergistics2:item.ItemMultiMaterial:1, Cristal Carregado de Quartzo Certus
 appliedenergistics2:item.ItemMultiMaterial:2, Pó de Quartzo Certus
@@ -14680,6 +15089,7 @@ appliedenergistics2:item.ItemMultiPart:463, Tùnel P2P - Fluido
 appliedenergistics2:item.ItemMultiPart:465, Tùnel P2P - EU
 appliedenergistics2:item.ItemMultiPart:466, Tùnel P2P - RF
 appliedenergistics2:item.ItemMultiPart:467, Tùnel P2P - Luz
+appliedenergistics2:item.ItemMultiPart:468, Tùnel P2P - OpenComputers
 appliedenergistics2:item.ItemMultiPart:471, Tùnel P2P - ME Interface
 appliedenergistics2:item.ItemMultiPart:472, Tùnel P2P - Sound
 appliedenergistics2:item.ItemMultiPart:473, ME Pattern Repeater
@@ -17336,20 +17746,20 @@ ForbiddenMagic:WandCores:10, Witchwood Staff Core
 ForbiddenMagic:WandCores:11, Dreamwood Rod
 ForbiddenMagic:WandCores:12, Silent Dreamwood Rod
 ForbiddenMagic:WandCores:13, Dreamwood Staff Core
+ForbiddenMagic:WandCores:14, §kAlchemical§r Rod
 ForbiddenMagic:WandCores:72, 
 ForbiddenMagic:WandCores:72, 
-ForbiddenMagic:WandCores:2000, 
-ForbiddenMagic:WandCores:2000, 
-ForbiddenMagic:WandCores:36, 
+ForbiddenMagic:WandCores:32766, 
+ForbiddenMagic:WandCores:32766, 
+ForbiddenMagic:WandCores:12, 
 ForbiddenMagic:WandCores:84, 
 ForbiddenMagic:WandCores:168, 
 ForbiddenMagic:WandCores:72, 
 ForbiddenMagic:WandCores:144, 
-ForbiddenMagic:WandCores:84, 
-ForbiddenMagic:WandCores:84, 
-ForbiddenMagic:WandCores:144, 
+ForbiddenMagic:WandCores:72, 
+ForbiddenMagic:WandCores:108, 
+ForbiddenMagic:WandCores:225, 
 ForbiddenMagic:WandCores:1, 
-ForbiddenMagic:WandCores:84, 
 ForbiddenMagic:WandCaps:0, Alchemical Cap
 ForbiddenMagic:WandCaps:1, Vinteum Cap
 ForbiddenMagic:WandCaps:2, Terrasteel Cap
@@ -20000,6 +20410,7 @@ EnderIO:itemItemConduit:0, Conduto de Itens
 EnderIO:itemGasConduit:0, Conduto de Gases
 EnderIO:itemMEConduit:0, Conduto ME
 EnderIO:itemMEConduit:1, Conduto ME Denso
+EnderIO:itemOCConduit:0, Network Conduit (OC)
 EnderIO:itemBasicFilterUpgrade:0, Filtro de Itens Básico
 EnderIO:itemBasicFilterUpgrade:1, Filtro de Itens Avançado
 EnderIO:itemBigFilterUpgrade:0, Big Item Filter
@@ -20231,6 +20642,13 @@ etfuturum:glow_berries_item, Glow Berries
 etfuturum:shulker_shell, Shulker Shell
 etfuturum:pigstep_record, Disco de Música
 etfuturum:otherside_record, Disco de Música
+etfuturum:precipice_record, Disco de Música
+etfuturum:creator_music_box_record, Disco de Música
+etfuturum:creator_record, Disco de Música
+etfuturum:tears_record, Disco de Música
+etfuturum:lava_chicken_record, Disco de Música
+etfuturum:five_record, Disco de Música
+etfuturum:disc_fragment_5, Disc Fragment
 etfuturum:amethyst_shard, Amethyst Shard
 etfuturum:shulker_box_upgrade:0, Vanilla to Iron Shulker Box Upgrade
 etfuturum:shulker_box_upgrade:1, Vanilla to Copper Shulker Box Upgrade
@@ -23828,6 +24246,7 @@ MekanismTools:SteelHelmet, Elmo de Aço
 MekanismTools:SteelChestplate, Peitoral de Aço
 MekanismTools:SteelLeggings, Calças de Aço
 MekanismTools:SteelBoots, Botas de Aço
+naturescompass:NaturesCompass, Nature's Compass
 netherlicious:crimsonSign, Crimson Sign
 netherlicious:warpedSign, Warped Sign
 netherlicious:foxfireSign, Foxfire Sign
@@ -23989,6 +24408,125 @@ OpenBlocks:spongeonastick, Sponge
 OpenBlocks:pedometer, Pedometer
 OpenBlocks:epicEraser, Epic Eraser
 OpenBlocks:wrench, Big Metal Bar
+OpenComputers:item:27, Unidade Lógica Aritmética (ULA)
+OpenComputers:item:101, Unidade de Processamento Acelerado (UPA) (Nível 1)
+OpenComputers:item:102, Unidade de Processamento Acelerado (UPA) (Nível 2)
+OpenComputers:item:103, Unidade de Processamento Acelerado (UPA) (Criativo)
+OpenComputers:item:18, Grogue
+OpenComputers:item:0, Analizador
+OpenComputers:item:21, Setas do Teclado
+OpenComputers:item:20, Grupo de Botões
+OpenComputers:item:29, Unidade Central de Processamento (CPU) (Nível 1)
+OpenComputers:item:42, Unidade Central de Processamento (CPU) (Nível 2)
+OpenComputers:item:43, Unidade Central de Processamento (CPU) (Nível 3)
+OpenComputers:item:33, Base de Cartão
+OpenComputers:item:96, Camaleão
+OpenComputers:item:31, Placa de Circuito
+OpenComputers:item:70, Componente de Barramento (Nível 1)
+OpenComputers:item:71, Componente de Barramento (Nível 2)
+OpenComputers:item:72, Componente de Barramento (Nível 3)
+OpenComputers:item:114, Componente de Barramento (Criativo)
+OpenComputers:item:28, Unidade de Controle (UC)
+OpenComputers:item:17, Fio de Corte
+OpenComputers:item:104, Cartão de Dados (Nível 1)
+OpenComputers:item:105, Cartão de Dados (Nível 2)
+OpenComputers:item:106, Cartão de Dados (Nível 3)
+OpenComputers:item:73, Cartão de Depuração
+OpenComputers:item:81, Depurador de Rede
+OpenComputers:item:111, Chip de Diamante
+OpenComputers:item:19, Prato do Disco
+OpenComputers:item:109, Unidade de Disco
+OpenComputers:item:83, Carcaça de Drone (Nível 1)
+OpenComputers:item:87, Carcaça de Drone (Nível 2)
+OpenComputers:item:91, Carcaça de Drone (Criativo)
+OpenComputers:item:4, Disquete
+OpenComputers:item:8, Placa de Vídeo (Nível 1)
+OpenComputers:item:9, Placa de Vídeo (Nível 2)
+OpenComputers:item:10, Placa de Vídeo (Nível 3)
+OpenComputers:item:5, Disco Rígido (Nível 1) (1MB)
+OpenComputers:item:6, Disco Rígido (Nível 2) (2MB)
+OpenComputers:item:7, Disco Rígido (Nível 3) (4MB)
+OpenComputers:item:95, Cartucho de Tinta
+OpenComputers:item:94, Cartucho de Tinta (Vazio)
+OpenComputers:item:44, Cartão de Internet
+OpenComputers:item:48, Interweb
+OpenComputers:item:51, Cartão Vinculado
+OpenComputers:item:98, Manual do OpenComputers
+OpenComputers:item:1, Memória (Nível 1)
+OpenComputers:item:50, Memória (Nível 1.5)
+OpenComputers:item:2, Memória (Nível 2)
+OpenComputers:item:3, Memória (Nível 2.5)
+OpenComputers:item:38, Memória (Nível 3)
+OpenComputers:item:39, Memória (Nível 3.5)
+OpenComputers:item:24, Circuito Integrado (Nível 1)
+OpenComputers:item:25, Circuito Integrado (Nível 2)
+OpenComputers:item:26, Circuito Integrado (Nível 3)
+OpenComputers:item:82, Carcaça do Microcontrolador (Nível 1)
+OpenComputers:item:86, Carcaça do Microcontrolador (Nível 2)
+OpenComputers:item:90, Carcaça do Microcontrolador (Criativo)
+OpenComputers:item:107, Nanomáquinas
+OpenComputers:item:11, Cartão de Rede
+OpenComputers:item:22, Teclado Numérico
+OpenComputers:item:32, Placa de Circuito Impresso (PCB)
+OpenComputers:item:30, Placa de Circuito Crua
+OpenComputers:item:66, Cartão de Redstone (Nível 1)
+OpenComputers:item:45, Servidor (Nível 1)
+OpenComputers:item:46, Servidor (Nível 2)
+OpenComputers:item:40, Servidor (Nível 3)
+OpenComputers:item:69, Servidor (Criativo)
+OpenComputers:item:74, Carcaça de Tablet (Nível 1)
+OpenComputers:item:92, Carcaça de Tablet (Nível 2)
+OpenComputers:item:93, Carcaça de Tablet (Criativo)
+OpenComputers:item:41, Terminal Remoto
+OpenComputers:item:108, Servidor de Terminal
+OpenComputers:item:97, Selecionador de Textura
+OpenComputers:item:117, TPS card
+OpenComputers:item:23, Transistor
+OpenComputers:item:49, Aprimoramento Angelical
+OpenComputers:item:63, Aprimoramento de Bateria (Nível 1)
+OpenComputers:item:64, Aprimoramento de Bateria (Nível 2)
+OpenComputers:item:65, Aprimoramento de Bateria (Nível 3)
+OpenComputers:item:62, Aprimoramento de Chunkloader
+OpenComputers:item:115, Configurator Upgrade
+OpenComputers:item:57, Contêiner de Cartão (Nível 1)
+OpenComputers:item:58, Contêiner de Cartão (Nível 2)
+OpenComputers:item:59, Contêiner de Cartão (Nível 3)
+OpenComputers:item:54, Aprimoramento de Contêiner (Nível 1)
+OpenComputers:item:55, Aprimoramento de Contêiner (Nível 2)
+OpenComputers:item:56, Aprimoramento de Contêiner (Nível 3)
+OpenComputers:item:14, Aprimoramento de Construção
+OpenComputers:item:78, Aprimoramento de Banco de Dados (Nível 1)
+OpenComputers:item:79, Aprimoramento de Banco de Dados (Nível 2)
+OpenComputers:item:80, Aprimoramento de Banco de Dados (Nível 3)
+OpenComputers:item:52, Aprimoramento de Experiência
+OpenComputers:item:15, Aprimoramento de Gerador
+OpenComputers:item:99, Aprimoramento de Flutuação (Nível 1)
+OpenComputers:item:100, Aprimoramento de Flutuação (Nível 2)
+OpenComputers:item:53, Aprimoramento de Inventário
+OpenComputers:item:61, Aprimoramento de Controlador de Inventário
+OpenComputers:item:85, Aprimoramento de Correia
+OpenComputers:item:112, MFU
+OpenComputers:item:36, Aprimoramento de Navegação
+OpenComputers:item:75, Aprimoramento de Pistão
+OpenComputers:item:116, RITEG Upgrade
+OpenComputers:item:35, Aprimoramento de Sinal de E/S
+OpenComputers:item:34, Aprimoramento de Gerador Solar
+OpenComputers:item:76, Aprimoramento de Tanque
+OpenComputers:item:77, Aprimoramento de Controlador de Tanque
+OpenComputers:item:67, Aprimoramento de Raio Trator
+OpenComputers:item:110, Aprimoramento de Troca
+OpenComputers:item:113, Cartão de Rede Sem Fio (Nível 1)
+OpenComputers:item:13, Cartão de Rede Sem Fio (Nível 2)
+OpenComputers:item:89, Cartão de Sensor de Mundo
+OpenComputers:item:84, Crecopter
+OpenComputers:item:0, Microcontrolador
+OpenComputers:item:0, Creatix
+OpenComputers:item:68, Tablet
+OpenComputers:item:0, Botas Voadoras
+OpenComputers:item:0, EEPROM (Lua BIOS)
+OpenComputers:eeprom, EEPROM
+OpenComputers:wrench, Chave de fenda-boca
+OpenComputers:hoverBoots, Botas Voadoras
 runicdungeons:item.key, Dungeon Key
 runicdungeons:item.magicchalk, Magical Chalk
 runicdungeons:item.magicstaff, Magical Staff
@@ -24288,6 +24826,7 @@ thaumicenergistics:knowledge.core, Knowledge Core
 thaumicenergistics:focus.aewrench, Wand Focus: AE Wrench
 thaumicenergistics:golem.wifi.backpack, Wireless Golem Backpack
 thaumicenergistics:cell.microscope, Cell Microscope
+thaumicenergistics:arcane.pattern, item.itemArcaneCraftingPattern.name
 ThaumicHorizons:spawnerEgg:0, Invocar Chromatic Sheep
 ThaumicHorizons:spawnerEgg:1, Invocar Self-Shearing Sheep
 ThaumicHorizons:spawnerEgg:2, Invocar Guardian Panther
