@@ -93,17 +93,57 @@ Pelo menos um desses transformers depende de estado montado durante o boot, não
 **Não usar.** Se algum dia for retomado, só com bissecção transformer por transformer e teste de
 regressão. Um transformer não determinístico também pode corromper uma classe em silêncio.
 
-## O que daria ganho grande de verdade (próximos passos)
+## Pré-filtro dos transformers do Reika (Akashic Leveza, experimental)
 
-Os transformers do Reika são o maior custo isolado (~20% do tempo Java no boot). Cachear o resultado não
-é seguro, mas a maior parte do custo deles é **fazer o parse de toda classe** (`ClassReader`/`ClassWriter`
-aparecem no topo do perfil). Um coremod pode pré-filtrar: antes de entregar a classe ao transformer,
-procurar nos bytes as strings que ele realmente procura (descritor da anotação, nome da classe-alvo) e
-pular as classes que não as contêm. A semântica fica igual, porque só são puladas as classes que o
-transformer não alteraria. É o candidato com mais potencial, e precisa de auditoria transformer por transformer.
+Os 6 transformers do DragonAPI/RotaryCraft fazem o parse completo de **toda** classe carregada só para
+procurar uma anotação ou um nome. O Leveza pode embrulhá-los e só chamá-los quando a classe contém as
+mesmas strings que eles comparam (`boot.prefiltro.reika`, ou `-Dakashic.leveza.prefiltro=true`).
 
-Thaumcraft `generateTags` e Eln `recipeExists` são patches menores. Pelo que o GeckoLib mostrou
-(9% no JFR → 4 s reais), devem render alguns segundos cada.
+**Equivalência provada:**
+- **Offline:** os transformers originais rodados sobre as 107.618 classes dos 211 jars. Nenhuma classe
+  pulada seria alterada (0 divergências, 0 erros). Só 2 a 388 classes por transformer são encaminhadas.
+- **No cliente real:** as 93 alterações registradas pelo Reika (`DRAGONAPI ASM: …`) saem idênticas, linha
+  a linha, às do pack sem o Leveza.
+
+Três problemas apareceram no cliente real e foram corrigidos antes de chegar a esse resultado:
+1. **Reflexão genérica no instalador** carregou cedo a classe `Chunk`, e o mixin do Mirai falhou com
+   "loaded too early". Agora só nomes de classe e o campo `original` do proxy do CoreTweaks.
+2. **Lista de delegação do Mixin:** o embrulho entrava na lista, e os transformers do DragonAPI rodavam
+   2× em algumas classes (108 linhas contra 93). O embrulho agora implementa `ILegacyClassTransformer`.
+3. **Mixingasm:** ele registra os nomes de classe da lista como "não confiáveis". O embrulho reproduz a
+   decisão original: DragonAPI excluídos e InterfaceVerifier incluído.
+
+**Boot (mesma instância, cache quente, alternando):**
+
+| | Boots | Média |
+|---|---|---:|
+| Ligado | 290,1 / 300,4 s / crash | 295,3 s |
+| Desligado | 325,1 / 293,3 / 295,3 s | 304,6 s |
+
+O ganho ficou **dentro da variação**: as medianas são iguais (295 s). Houve 1 crash em 3 boots com o
+pré-filtro ligado, de uma corrida que já existe no ThePatcher (abaixo); a mudança de tempo pode deixá-la
+mais provável. Por isso o pré-filtro vem **desligado por padrão**.
+
+## Corrida no registro paralelo de ícones do Akashic-ThePatcher (achado do teste)
+
+Crash `Parallel block icon registration failed`: `NullPointerException` em `BlockSandStone.getIcon`,
+chamado por `ganymedes01.etfuturum.blocks.BlockRedSandstoneSlab.registerBlockIcons` numa thread de
+trabalho do `registerBlockIconsHybrid` (módulo AsyncCompat). A laje de arenito vermelho do Et Futurum lê
+os ícones do arenito vanilla durante o próprio registro. Em paralelo, eles podem ainda não existir.
+
+O `CompatHooks` do ThePatcher força para a thread principal só `team.chisel.`, `com.cricketcraft.chisel.`,
+`mekanism.`, `powercrystals.minefactoryreloaded.` e `cofh.`, numa lista fixa no código. **O Et Futurum não
+está nela**, e isso pode derrubar o boot de jogadores mesmo sem o Leveza: é questão de tempo entre threads.
+Correção sugerida no ThePatcher:
+1. Incluir `ganymedes01.etfuturum.` nessa lista.
+2. Garantir que os blocos vanilla de que ele depende já tenham registrado os ícones, ou rodar o Et
+   Futurum depois de esperar os jobs assíncronos.
+
+## O que mais daria ganho (próximos passos)
+
+Thaumcraft `generateTags` e Eln `recipeExists` precisam de patch. Pelo que o GeckoLib (9% no JFR → 4 s
+reais) e o pré-filtro mostraram, as porcentagens do JFR superestimam bastante o tempo de relógio.
+Qualquer patch novo precisa de A/B no cliente real antes de valer a pena.
 
 ## O que já dá para fazer
 

@@ -76,7 +76,7 @@ final class LevezaConfig {
         this.reduceReika = bool(p, "reduzir.reika", true);
         this.verbose = bool(p, "log.detalhado", false);
         String pre = System.getProperty("akashic.leveza.prefiltro");
-        this.reikaPrefilter = pre != null ? Boolean.parseBoolean(pre) : bool(p, "boot.prefiltro.reika", true);
+        this.reikaPrefilter = pre != null ? Boolean.parseBoolean(pre) : bool(p, "boot.prefiltro.reika", false);
         String cacheProp = System.getProperty("akashic.leveza.cache");
         this.decodeCache = cacheProp != null ? Boolean.parseBoolean(cacheProp) : bool(p, "cache.decodificacao", false);
         this.decodeCacheMinKb = Math.max(1, intOr(p, "cache.minimo.kb", 32));
@@ -210,10 +210,12 @@ final class LevezaConfig {
             + "ignorar.dominios=minecraft,akashiccinematic,distanthorizons\n"
             + "ignorar.texturas=\n"
             + "\n"
-            + "# BOOT - pre-filtro dos transformers ASM do Reika (DragonAPI/RotaryCraft): so chama cada transformer\n"
-            + "# nas classes que contem o que ele procura (anotacao/nome). Resultado identico, boot mais rapido.\n"
-            + "# Desligar sem editar: -Dakashic.leveza.prefiltro=false\n"
-            + "boot.prefiltro.reika=true\n"
+            + "# EXPERIMENTAL - pre-filtro dos transformers ASM do Reika (DragonAPI/RotaryCraft): so chama cada\n"
+            + "# transformer nas classes que contem o que ele procura. Resultado provado identico (107.618 classes;\n"
+            + "# mesmas alteracoes no log), mas no teste o ganho de boot ficou dentro do ruido e a mudanca de tempo\n"
+            + "# expôs uma corrida do registro paralelo de icones do Akashic-ThePatcher (Et Futurum). Ver BOOT.md.\n"
+            + "# Ligar sem editar: -Dakashic.leveza.prefiltro=true\n"
+            + "boot.prefiltro.reika=false\n"
             + "\n"
             + "# EXPERIMENTAL - cache em disco (cache/akashic-leveza/) das texturas de atlas ja reduzidas: do 2o boot\n"
             + "# em diante o jogo le a versao pequena em vez de decodificar o PNG grande. No teste com 4 CPUs o ganho\n"
