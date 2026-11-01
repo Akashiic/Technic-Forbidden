@@ -3,7 +3,6 @@ package br.com.redeakashic.leveza;
 import net.minecraft.launchwrapper.IClassTransformer;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
@@ -176,6 +175,14 @@ final class ReikaPrefilter {
         throw new NoSuchFieldException("LaunchClassLoader.transformers");
     }
 
+    /*
+     * IMPORTANTE: nada de reflexão genérica (getMethods/getDeclaredFields) em transformers desconhecidos.
+     * A reflexão carrega as classes dos tipos dos campos/métodos; um transformer com campo do tipo de uma
+     * classe do Minecraft a carregaria antes dos mixins (visto no cliente real: MixinChunk "loaded too
+     * early"). Só nomes de classe (getName/getSuperclass) e o campo "original" do proxy do CoreTweaks.
+     */
+    private static final String CORETWEAKS_PROXY = "makamys.coretweaks.optimization.transformerproxy.TransformerProxy";
+
     /** O elemento (ou algum transformer que ele envolve) já é um embrulho nosso? */
     static boolean isOurs(Object t) {
         for (int depth = 0; t != null && depth < 6; depth++) {
@@ -187,7 +194,7 @@ final class ReikaPrefilter {
         return false;
     }
 
-    /** Regra do transformer do Reika contido no elemento (desembrulhando proxies), ou null. */
+    /** Regra do transformer do Reika contido no elemento (desembrulhando o proxy do CoreTweaks), ou null. */
     static Rule ruleFor(Object t) {
         for (int depth = 0; t != null && depth < 6; depth++) {
             for (Class<?> k = t.getClass(); k != null && k != Object.class; k = k.getSuperclass()) {
@@ -202,29 +209,20 @@ final class ReikaPrefilter {
         return null;
     }
 
-    /** Transformer envolvido por um proxy (CoreTweaks: getOriginal()/campo original), ou null. */
+    /** Transformer envolvido pelo proxy do CoreTweaks (campo "original"), ou null para qualquer outra classe. */
     static Object unwrap(Object t) {
-        try {
-            Method m = t.getClass().getMethod("getOriginal");
-            Object o = m.invoke(t);
-            if (o != null && o != t) {
-                return o;
-            }
-        } catch (Throwable ignored) {
-            // sem getOriginal
+        if (t instanceof Wrapper) {
+            return ((Wrapper) t).delegate;
         }
         for (Class<?> k = t.getClass(); k != null && k != Object.class; k = k.getSuperclass()) {
-            for (Field f : k.getDeclaredFields()) {
-                if (IClassTransformer.class.isAssignableFrom(f.getType()) && !java.lang.reflect.Modifier.isStatic(f.getModifiers())) {
-                    try {
-                        f.setAccessible(true);
-                        Object o = f.get(t);
-                        if (o != null && o != t) {
-                            return o;
-                        }
-                    } catch (Throwable ignored) {
-                        // tenta o próximo
-                    }
+            if (CORETWEAKS_PROXY.equals(k.getName())) {
+                try {
+                    Field f = k.getDeclaredField("original"); // campos do proxy: IClassTransformer, List, int
+                    f.setAccessible(true);
+                    Object o = f.get(t);
+                    return o != t ? o : null;
+                } catch (Throwable e) {
+                    return null;
                 }
             }
         }
