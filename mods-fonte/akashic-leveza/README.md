@@ -43,6 +43,32 @@ do jogo, primeiro sem o mod e depois com ele. Os valores são heap após o `load
 
 Com `mipmapLevels:4`, some ~33% a todos os números. Nas texturas animadas isso dá ~481 MiB → ~111 MiB no `leve`.
 
+## E o boot?
+
+Medido com o `LevezaPackScan` (as 39.999 texturas de blocos/itens, 1 thread, CPU de nuvem rápida):
+
+| Etapa das texturas no boot | Sem o mod | `leve` | `batata` |
+|---|---:|---:|---:|
+| Decodificar os PNGs (o mod não altera; o Angelica paraleliza) | 10,6 s | 10,6 s | 10,7 s |
+| `loadSprite` + redução + mipmaps nível 4 | 5,5 s | 4,9 s | 3,7 s |
+
+**Em PC com RAM sobrando, o ganho de velocidade é pequeno**: 1 a 2 s em CPU rápida (proporcionalmente
+mais em CPU fraca). O PNG continua sendo decodificado em tamanho cheio antes da redução.
+
+**Em PC com o heap apertado, a diferença é grande.** Simulação do stitch com todos os sprites vivos ao
+mesmo tempo, como no jogo:
+
+| `-Xmx` só para as texturas | Sem o mod | Com o mod (`leve`) |
+|---|---|---|
+| 1000 MB | 22,1 s, 0 GC completo | 20,2 s, 0 GC completo |
+| 700 MB | 19,2 s, **3 GC completos** | 19,3 s, 0 GC completo |
+| 500 MB | **OutOfMemoryError** depois de 193 GCs completos | 21,2 s, 0 GC completo |
+
+No jogo, essas texturas disputam o heap com o resto dos mods. Por isso, quem está perto do limite de
+RAM tem hoje um boot arrastado (GC completo atrás de GC completo) ou um crash. Com o mod, isso deixa
+de acontecer na fase das texturas. Atlas menores também sobem mais rápido para a GPU, mas isso só
+dá para medir no jogo.
+
 ## Instalação
 
 1. Copie `dist/Akashic-Leveza-<versão>-client.jar` para `mods/` (só no cliente; o servidor não precisa).
