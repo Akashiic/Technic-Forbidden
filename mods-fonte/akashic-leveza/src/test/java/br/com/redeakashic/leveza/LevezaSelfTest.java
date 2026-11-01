@@ -220,6 +220,7 @@ public final class LevezaSelfTest {
         System.setProperty("akashic.leveza.cacheDir", dir.getAbsolutePath());
         Properties p = new Properties();
         p.setProperty("perfil", "leve");
+        p.setProperty("cache.decodificacao", "true");
         LevezaConfig.reset(p);
         LevezaCache.resetForTests();
 

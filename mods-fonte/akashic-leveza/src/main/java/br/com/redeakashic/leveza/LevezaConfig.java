@@ -74,8 +74,8 @@ final class LevezaConfig {
         this.reduceLargeTextures = bool(p, "reduzir.texturas.grandes", true);
         this.reduceReika = bool(p, "reduzir.reika", true);
         this.verbose = bool(p, "log.detalhado", false);
-        this.decodeCache = bool(p, "cache.decodificacao", true)
-                && !"false".equalsIgnoreCase(System.getProperty("akashic.leveza.cache", "true"));
+        String cacheProp = System.getProperty("akashic.leveza.cache");
+        this.decodeCache = cacheProp != null ? Boolean.parseBoolean(cacheProp) : bool(p, "cache.decodificacao", false);
         this.decodeCacheMinKb = Math.max(1, intOr(p, "cache.minimo.kb", 32));
         this.ignoredDomains = list(p, "ignorar.dominios", "minecraft,akashiccinematic,distanthorizons");
         this.ignoredPrefixes = list(p, "ignorar.texturas", "");
@@ -207,10 +207,11 @@ final class LevezaConfig {
             + "ignorar.dominios=minecraft,akashiccinematic,distanthorizons\n"
             + "ignorar.texturas=\n"
             + "\n"
-            + "# Cache em disco (cache/akashic-leveza/) das texturas de atlas ja reduzidas: do 2o boot em diante o jogo\n"
-            + "# le direto a versao pequena em vez de decodificar o PNG grande. Pode apagar a pasta quando quiser.\n"
-            + "# Desligar sem editar: -Dakashic.leveza.cache=false\n"
-            + "cache.decodificacao=true\n"
+            + "# EXPERIMENTAL - cache em disco (cache/akashic-leveza/) das texturas de atlas ja reduzidas: do 2o boot\n"
+            + "# em diante o jogo le a versao pequena em vez de decodificar o PNG grande. No teste com 4 CPUs o ganho\n"
+            + "# ficou dentro do ruido (o Angelica ja decodifica em paralelo); pode ajudar em CPU de 2 nucleos.\n"
+            + "# Ligar sem editar: -Dakashic.leveza.cache=true\n"
+            + "cache.decodificacao=false\n"
             + "# So entram no cache PNGs maiores que isto (KB).\n"
             + "cache.minimo.kb=32\n"
             + "\n"
