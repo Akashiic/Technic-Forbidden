@@ -16,10 +16,11 @@ O heap vivo foi medido com `jcmd GC.class_histogram` no menu principal.
 
 | Com `-Xmx6G` | Sem o Leveza | Com o Leveza |
 |---|---:|---:|
-| Heap vivo no menu | 1.874 MB | **1.571 MB (−303 MB)** |
+| Heap vivo no menu | 1.874 / 1.872 MB (2 execuções) | **1.571 MB (−300 MB)** |
 | …dos quais `int[]` (frames de textura) | 492 MB | **203 MB** |
-| Fase de texturas, blocos + itens (`AtlasProfile` do ThePatcher, boot frio) | 63,5 s | **51,4 s (−19%)** |
-| Tempo parado em GC no boot | 25,4 s | 21,5 s |
+| Fase de texturas, blocos + itens (`AtlasProfile` do ThePatcher, boot frio) | 63,5 / 61,7 s | **51,4 s (−10 a −12 s)** |
+| Tempo até o menu (software GL, boot frio) | 678 s (execução limpa) | 613 s (indicativo: 1 execução de cada) |
+| Tempo parado em GC no boot | 25,4 / 24,5 s | 21,5 s |
 
 | Com `-Xmx2560m` (perto do heap automático de 2,4 GB do celular) | Sem o Leveza | Com o Leveza |
 |---|---:|---:|
