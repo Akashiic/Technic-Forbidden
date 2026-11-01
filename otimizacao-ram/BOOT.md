@@ -42,7 +42,7 @@
 |---|---:|---|
 | Transformers ASM do Reika (DragonAPI/RotaryCraft) em **toda** classe carregada | ~20% | Cache testado e **reprovado** (ver abaixo) |
 | Thaumcraft `ThaumcraftCraftingManager.generateTags` | 9,7% | Precisa de patch (candidato ao ThePatcher) |
-| GeckoLib `RawGeometryTree.traverse` (modelo de exemplo `optimus`, 2.989 ossos) | ~9% | Override de arquivo; medição abaixo |
+| GeckoLib `RawGeometryTree.traverse` (modelo de exemplo `optimus`, 2.989 ossos) | ~9% | Override de arquivo: **−4 s** medido (abaixo) |
 | Eln `CraftingRecipes.recipeExists` | 5,4% | Precisa de patch (candidato ao ThePatcher) |
 | Mixins (todos) | 2,6% | Normal |
 
@@ -68,6 +68,18 @@ pelo TX Loader:
 [`overrides/config/txloader/load/geckolib3/geo/optimus.geo.json`](overrides/config/txloader/load/geckolib3/geo/optimus.geo.json).
 Nenhum mod do pack usa esse modelo.
 
+**Medido no cliente real** (boots alternados, cache quente):
+
+| | Até o menu | Init do geckolib3 |
+|---|---:|---:|
+| Config atual (3 boots) | 322,1 / 311,6 / 313,7 s | 11,7 / 10,4 / 9,5 s |
+| Com o override (2 boots) | 318,8 / 305,8 s | 6,6 / 6,7 s |
+
+Ganho real de **~4 s** no Init do geckolib3, menos que os "9%" do JFR sugeriam: as porcentagens do JFR
+são de amostras Java, não de tempo de relógio. Memória: ~3 MB a menos, sem efeito visível no total.
+Seguro e barato, mas pequeno. Para aplicar, copiar o arquivo para
+`config/txloader/load/geckolib3/geo/optimus.geo.json` no pack.
+
 ## Testado e reprovado: cachear os transformers do Reika no CoreTweaks
 
 Ideia: acrescentar à `transformersToCache` do CoreTweaks (modo LITE) os transformers do DragonAPI,
@@ -80,6 +92,18 @@ Pelo menos um desses transformers depende de estado montado durante o boot, não
 
 **Não usar.** Se algum dia for retomado, só com bissecção transformer por transformer e teste de
 regressão. Um transformer não determinístico também pode corromper uma classe em silêncio.
+
+## O que daria ganho grande de verdade (próximos passos)
+
+Os transformers do Reika são o maior custo isolado (~20% do tempo Java no boot). Cachear o resultado não
+é seguro, mas a maior parte do custo deles é **fazer o parse de toda classe** (`ClassReader`/`ClassWriter`
+aparecem no topo do perfil). Um coremod pode pré-filtrar: antes de entregar a classe ao transformer,
+procurar nos bytes as strings que ele realmente procura (descritor da anotação, nome da classe-alvo) e
+pular as classes que não as contêm. A semântica fica igual, porque só são puladas as classes que o
+transformer não alteraria. É o candidato com mais potencial, e precisa de auditoria transformer por transformer.
+
+Thaumcraft `generateTags` e Eln `recipeExists` são patches menores. Pelo que o GeckoLib mostrou
+(9% no JFR → 4 s reais), devem render alguns segundos cada.
 
 ## O que já dá para fazer
 
