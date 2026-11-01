@@ -14,6 +14,14 @@ import java.lang.annotation.Annotation;
  * embrulho entraria na lista com o próprio nome e os transformers do DragonAPI, que o Mixin exclui
  * normalmente, rodariam duas vezes (visto no cliente real: alterações do Reika registradas 2x).
  * Respondendo com o nome do original, a decisão do Mixin fica idêntica à do pack sem o Leveza.
+ *
+ * <p>Detalhe medido no cliente real: quem põe os transformers do Reika na lista de exclusões é o
+ * Mixingasm (UniMixins). Ele registra o NOME DA CLASSE de cada elemento da lista do LaunchClassLoader
+ * (com '$' trocado por '.') que não é "confiável". Se o embrulho já estava na lista quando ele rodou,
+ * ele registra o nome do embrulho, e não o do Reika. Por isso isDelegationExcluded() reproduz a regra:
+ * excluído se o getName() do original contiver o nome que o Mixingasm teria registrado para ele.
+ * Resultado igual ao do pack sem o Leveza: os 5 do DragonAPI excluídos; o InterfaceVerifier do
+ * RotaryCraft incluído (o nome registrado tem '.', o getName() tem '$', e o Mixin compara com contains()).
  */
 final class MixinAwareWrapper extends ReikaPrefilter.Wrapper implements ILegacyClassTransformer {
 
@@ -32,8 +40,31 @@ final class MixinAwareWrapper extends ReikaPrefilter.Wrapper implements ILegacyC
 
     /** Mesma regra do LegacyTransformerHandle: excluído se a classe do original tiver @javax.annotation.Resource. */
     @Override
-    @SuppressWarnings("unchecked")
     public boolean isDelegationExcluded() {
+        if (originalExcludedByAnnotation()) {
+            return true;
+        }
+        // Regra do Mixingasm: os 6 transformers do Reika não são "confiáveis" (fora da lista de inclusão)
+        if (MIXINGASM_PRESENT) {
+            String mixingasmName = delegate.getClass().getName().replace('$', '.');
+            return getName().contains(mixingasmName);
+        }
+        return false;
+    }
+
+    private static final boolean MIXINGASM_PRESENT = classExists("makamys.mixingasm.Mixingasm");
+
+    private static boolean classExists(String name) {
+        try {
+            Class.forName(name, false, MixinAwareWrapper.class.getClassLoader());
+            return true;
+        } catch (Throwable t) {
+            return false;
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private boolean originalExcludedByAnnotation() {
         if (delegate instanceof ITransformer) {
             return ((ITransformer) delegate).isDelegationExcluded();
         }
