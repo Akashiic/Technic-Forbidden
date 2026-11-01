@@ -69,6 +69,41 @@ RAM tem hoje um boot arrastado (GC completo atrás de GC completo) ou um crash. 
 de acontecer na fase das texturas. Atlas menores também sobem mais rápido para a GPU, mas isso só
 dá para medir no jogo.
 
+## Cache de decodificação (acelera o boot do 2º em diante)
+
+O Leveza só consegue reduzir uma textura depois que o PNG foi decodificado em tamanho cheio. O cache
+evita isso nos boots seguintes:
+
+1. **1º boot:** ao ler um PNG de `textures/blocks|items` com mais de `cache.minimo.kb` (32 KB), o mod
+   calcula o SHA-1 dos bytes originais. Se a textura for reduzida, a versão pequena é gravada em
+   `cache/akashic-leveza/<perfil>-<hash>/`, por uma thread de baixa prioridade que não segura o boot.
+2. **Boots seguintes:** o gancho em `SimpleResource.getInputStream` confere o SHA-1. Se bater, o
+   decodificador recebe direto o PNG pequeno. Isso vale tanto para o vanilla quanto para o
+   decodificador paralelo do Angelica, que lê pelo mesmo `IResourceManager.getResource().getInputStream()`.
+3. **Segurança:** os bytes originais ficam guardados até o `loadSprite`. Se qualquer coisa não bater, o
+   `loadSprite` decodifica a original e reduz do zero:
+   - outro resource pack com outro PNG (o SHA-1 muda);
+   - `.mcmeta` com outro frametime;
+   - textura que passou a ser ignorada;
+   - dimensões inesperadas.
+
+O nome da pasta do cache inclui perfil, limites, listas de exceção e versão do mod, então mudar
+qualquer um deles cria um cache novo e apaga os antigos. A pasta pode ser apagada quando quiserem.
+Para desligar: `cache.decodificacao=false` ou `-Dakashic.leveza.cache=false`.
+
+## Convivência com o Akashic-ThePatcher
+
+O ThePatcher já acelera o boot de outras formas (ver `docs/ARCHITECTURE.md` e o histórico dele).
+O Leveza não substitui nenhuma delas:
+
+| ThePatcher | Interação com o Leveza |
+|---|---|
+| `akashic.stitchLayoutCache` (beta.13): cache da geometria do stitch, com chave que inclui as **dimensões** dos sprites | No 1º boot com o Leveza (ou depois de trocar de perfil), o log mostra `StitchLayoutCache MISS` uma vez e o cache é refeito com os tamanhos novos. Depois volta a dar `HIT`, porque o Leveza é determinístico. |
+| `akashic.blocksAtlasBatch` (beta.30): envio do atlas de blocos à GPU em lotes, **só com mipmap 0** | O perfil `leve` do pacote de otimização aplica `mipmapLevels:0`, o que liga o batcher. |
+| `akashic.itemsAtlasBatch` (beta.18/40): fica desligado com o `AtlasAssembler` do Angelica | Sem interação. |
+| Upload dos atlas para a GPU (~30 s no boot medido no beta.14) | Atlas menores significam menos bytes enviados. O tempo deve cair; medir com as linhas `AtlasProfile` / `UploadBreakdown` do StartupAudit. |
+| AsyncCompat (beta.11/34): `registerIcons` em threads de trabalho | Os ganchos do Leveza são thread-safe (reflexão sincronizada, contadores atômicos, mapas concorrentes). |
+
 ## Instalação
 
 1. Copie `dist/Akashic-Leveza-<versão>-client.jar` para `mods/` (só no cliente; o servidor não precisa).

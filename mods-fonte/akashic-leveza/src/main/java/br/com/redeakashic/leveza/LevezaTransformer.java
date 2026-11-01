@@ -13,13 +13,15 @@ import org.objectweb.asm.tree.TypeInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
 
 /**
- * Injeta chamadas no INÍCIO de quatro métodos (sem mexer em call sites, para não brigar com mixins):
+ * Injeta chamadas no INÍCIO de seis métodos (sem mexer em call sites, para não brigar com mixins):
  *
  * <ul>
  *   <li>TextureAtlasSprite.loadSprite: troca images[0] e o AnimationMetadataSection por versões reduzidas.</li>
  *   <li>SimpleTexture.loadTexture: registra qual ResourceLocation está carregando (contexto do upload).</li>
  *   <li>TextureUtil.uploadTextureImageAllocate: limita o tamanho da imagem enviada à GPU.</li>
  *   <li>Reika ReikaTextureBinder: idem, para as texturas do Reika fora de assets/.</li>
+ *   <li>SimpleResource.getInputStream: serve a textura já reduzida do cache em disco (LevezaCache).</li>
+ *   <li>TextureMap.loadTextureAtlas: registra o basePath do atlas (para achar a entrada do cache).</li>
  * </ul>
  *
  * Só são inseridas instruções lineares antes da primeira instrução original, gravando nos slots dos
@@ -49,13 +51,19 @@ public final class LevezaTransformer implements IClassTransformer, Opcodes {
             if ("Reika.DragonAPI.IO.ReikaTextureBinder".equals(transformedName)) {
                 return patch(bytes, transformedName, Kind.REIKA);
             }
+            if ("net.minecraft.client.resources.SimpleResource".equals(transformedName)) {
+                return patch(bytes, transformedName, Kind.SIMPLE_RESOURCE);
+            }
+            if ("net.minecraft.client.renderer.texture.TextureMap".equals(transformedName)) {
+                return patch(bytes, transformedName, Kind.TEXTURE_MAP);
+            }
         } catch (Throwable t) {
             LevezaLog.error("Falha ao transformar " + transformedName + "; classe mantida original.", t);
         }
         return bytes;
     }
 
-    enum Kind { SPRITE, TEXTURE_UTIL, SIMPLE_TEXTURE, REIKA }
+    enum Kind { SPRITE, TEXTURE_UTIL, SIMPLE_TEXTURE, REIKA, SIMPLE_RESOURCE, TEXTURE_MAP }
 
     static byte[] patch(byte[] bytes, String className, Kind kind) {
         ClassNode node = new ClassNode();
@@ -124,6 +132,21 @@ public final class LevezaTransformer implements IClassTransformer, Opcodes {
                     l.add(new MethodInsnNode(INVOKESTATIC, HOOKS, "preUploadReika",
                             "(L" + IMG + ";)L" + IMG + ";", false));
                     l.add(new VarInsnNode(ASTORE, 1));
+                    return l;
+                }
+                return null;
+            case SIMPLE_RESOURCE:
+                if (isAny(m.name, "func_110527_b", "getInputStream") && m.desc.equals("()Ljava/io/InputStream;")) {
+                    l.add(new VarInsnNode(ALOAD, 0));
+                    l.add(new MethodInsnNode(INVOKESTATIC, HOOKS, "onGetInputStream", "(Ljava/lang/Object;)V", false));
+                    return l;
+                }
+                return null;
+            case TEXTURE_MAP:
+                if (isAny(m.name, "func_110571_b", "loadTextureAtlas")
+                        && m.desc.equals("(Lnet/minecraft/client/resources/IResourceManager;)V")) {
+                    l.add(new VarInsnNode(ALOAD, 0));
+                    l.add(new MethodInsnNode(INVOKESTATIC, HOOKS, "enterTextureMap", "(Ljava/lang/Object;)V", false));
                     return l;
                 }
                 return null;

@@ -143,6 +143,10 @@ public final class LevezaSelfTest {
         check(staticResult(spriteCtor, load, "mo:items/ion_sniper", 1024) == 1024, "perfil desligado: intacto");
 
         LevezaHooks.logSummary();
+
+        // 7) cache de decodificação com o SimpleResource real, em três "boots"
+        cacheTests(mc, spriteCtor, load, metaCtor, spriteClass, metaClass);
+
         System.out.println(failures == 0 ? "TODOS OS TESTES PASSARAM" : failures + " FALHA(S)");
         System.exit(failures == 0 ? 0 : 1);
     }
@@ -158,7 +162,9 @@ public final class LevezaSelfTest {
         final Map<String, byte[]> tr = new HashMap<String, byte[]>();
         for (String n : new String[] {"net.minecraft.client.renderer.texture.TextureAtlasSprite",
                 "net.minecraft.client.renderer.texture.TextureUtil",
-                "net.minecraft.client.renderer.texture.SimpleTexture"}) {
+                "net.minecraft.client.renderer.texture.SimpleTexture",
+                "net.minecraft.client.resources.SimpleResource",
+                "net.minecraft.client.renderer.texture.TextureMap"}) {
             lastOriginal.put(n, classes.get(n));
             tr.put(n, tx.transform(n, n, classes.get(n)));
         }
@@ -180,6 +186,115 @@ public final class LevezaSelfTest {
                 }
             }
         };
+    }
+
+    /** Objeto com o mesmo campo que o TextureMap usa para o basePath. */
+    static final class FakeTextureMap {
+        final String basePath;
+
+        FakeTextureMap(String basePath) {
+            this.basePath = basePath;
+        }
+    }
+
+    private static void cacheTests(ClassLoader mc, Constructor<?> spriteCtor, Method load, Constructor<?> metaCtor,
+                                   Class<?> spriteClass, Class<?> metaClass) throws Exception {
+        java.io.File dir = java.nio.file.Files.createTempDirectory("leveza-cache").toFile();
+        System.setProperty("akashic.leveza.cacheDir", dir.getAbsolutePath());
+        Properties p = new Properties();
+        p.setProperty("perfil", "leve");
+        LevezaConfig.reset(p);
+        LevezaCache.resetForTests();
+
+        Class<?> rlClass = mc.loadClass("net.minecraft.util.ResourceLocation");
+        Class<?> resClass = mc.loadClass("net.minecraft.client.resources.SimpleResource");
+        Constructor<?> rlCtor = rlClass.getConstructor(String.class);
+        Constructor<?> resCtor = resClass.getDeclaredConstructors()[0];
+        resCtor.setAccessible(true);
+        Method getStream = resClass.getDeclaredMethod("func_110527_b");
+        Object loc = rlCtor.newInstance("ChromatiCraft:textures/blocks/icons/roundflare.png");
+        byte[] png = noisyStripPng(256, 180, 1);
+
+        // boot 1: miss, reduz e grava
+        BufferedImage[] r1 = bootOnce(load, spriteCtor, metaCtor, resCtor, getStream, loc, png, 1);
+        LevezaCache.resetForTests(); // espera a gravação e grava o índice
+        java.io.File[] files = new java.io.File(dir, dir.list()[0]).listFiles();
+        check(files != null && files.length == 2, "cache: boot 1 gravou PNG reduzido + índice");
+        check(r1[0].getWidth() == 64 && r1[0].getHeight() == 64 * 60, "cache: boot 1 reduziu normalmente");
+
+        // boot 2: acerto, já chega pequeno, mesmo resultado
+        Object[] out2 = new Object[1];
+        BufferedImage decoded2 = decodeVia(resCtor, getStream, loc, png);
+        check(decoded2.getWidth() == 64 && decoded2.getHeight() == 64 * 60, "cache: boot 2 entrega o PNG já reduzido ao decodificador");
+        Object s2 = runSprite(load, spriteCtor, metaCtor, decoded2, 1, out2);
+        checkSprite(spriteClass, metaClass, s2, 64, 60, 3, "cache: boot 2 (acerto)");
+
+        // PNG diferente no mesmo caminho (outro resource pack): erro de cache, reduz do zero
+        byte[] other = noisyStripPng(256, 180, 2);
+        BufferedImage decoded3 = decodeVia(resCtor, getStream, loc, other);
+        check(decoded3.getWidth() == 256, "cache: PNG diferente não usa o cache");
+        Object s3 = runSprite(load, spriteCtor, metaCtor, decoded3, 1, new Object[1]);
+        checkSprite(spriteClass, metaClass, s3, 64, 60, 3, "cache: PNG diferente reduzido normalmente");
+
+        // mesmo PNG, mcmeta com outro frametime: volta para a original e recalcula
+        BufferedImage decoded4 = decodeVia(resCtor, getStream, loc, png);
+        Object s4 = runSprite(load, spriteCtor, metaCtor, decoded4, 2, new Object[1]);
+        checkSprite(spriteClass, metaClass, s4, 64, 60, 6, "cache: mcmeta alterado cai para a original");
+        LevezaCache.resetForTests();
+        System.clearProperty("akashic.leveza.cacheDir");
+    }
+
+    private static BufferedImage[] bootOnce(Method load, Constructor<?> spriteCtor, Constructor<?> metaCtor,
+                                            Constructor<?> resCtor, Method getStream, Object loc, byte[] png,
+                                            int frameTime) throws Exception {
+        BufferedImage img = decodeVia(resCtor, getStream, loc, png);
+        BufferedImage[] arr = new BufferedImage[] {img};
+        LevezaHooks.enterTextureMap(new FakeTextureMap("textures/blocks"));
+        Object sprite = spriteCtor.newInstance("chromaticraft:icons/roundflare");
+        load.invoke(sprite, arr, metaCtor.newInstance(new ArrayList<Object>(), -1, -1, frameTime), false);
+        LevezaHooks.logSummary();
+        return arr;
+    }
+
+    private static BufferedImage decodeVia(Constructor<?> resCtor, Method getStream, Object loc, byte[] png) throws Exception {
+        LevezaHooks.enterTextureMap(new FakeTextureMap("textures/blocks"));
+        Object res = resCtor.newInstance(loc, new java.io.ByteArrayInputStream(png), null, null);
+        java.io.InputStream in = (java.io.InputStream) getStream.invoke(res);
+        return javax.imageio.ImageIO.read(in);
+    }
+
+    private static Object runSprite(Method load, Constructor<?> spriteCtor, Constructor<?> metaCtor, BufferedImage img,
+                                    int frameTime, Object[] unused) throws Exception {
+        LevezaHooks.enterTextureMap(new FakeTextureMap("textures/blocks"));
+        Object sprite = spriteCtor.newInstance("chromaticraft:icons/roundflare");
+        load.invoke(sprite, new BufferedImage[] {img}, metaCtor.newInstance(new ArrayList<Object>(), -1, -1, frameTime), false);
+        LevezaHooks.logSummary();
+        return sprite;
+    }
+
+    private static void checkSprite(Class<?> spriteClass, Class<?> metaClass, Object sprite, int w, int frames,
+                                    int frameTime, String what) throws Exception {
+        int width = field(spriteClass, "field_130223_c").getInt(sprite);
+        int n = ((List<?>) field(spriteClass, "field_110976_a").get(sprite)).size();
+        Object meta = field(spriteClass, "field_110982_k").get(sprite);
+        int ft = field(metaClass, "field_110475_d").getInt(meta);
+        check(width == w && n == frames && ft == frameTime,
+                what + " (frame " + width + "px, " + n + " frames, frametime " + ft + ")");
+    }
+
+    private static byte[] noisyStripPng(int w, int frames, long seed) throws Exception {
+        BufferedImage img = new BufferedImage(w, w * frames, BufferedImage.TYPE_INT_ARGB);
+        java.util.Random rnd = new java.util.Random(seed);
+        int[] row = new int[w * w];
+        for (int f = 0; f < frames; f++) {
+            for (int i = 0; i < row.length; i++) {
+                row[i] = 0xFF000000 | rnd.nextInt(0x1000000);
+            }
+            img.setRGB(0, f * w, w, w, row, 0, w);
+        }
+        java.io.ByteArrayOutputStream bo = new java.io.ByteArrayOutputStream();
+        javax.imageio.ImageIO.write(img, "png", bo);
+        return bo.toByteArray();
     }
 
     private static BufferedImage loadTexture(BufferedImage img) {

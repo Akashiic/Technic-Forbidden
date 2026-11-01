@@ -30,6 +30,8 @@ public final class LevezaHooks {
     static final AtomicLong uploadAfter = new AtomicLong();
 
     private static final ThreadLocal<Object> CURRENT_SIMPLE_TEXTURE = new ThreadLocal<Object>();
+    private static final ThreadLocal<String> CURRENT_BASE_PATH = new ThreadLocal<String>();
+    private static Field textureMapBasePathField;
 
     private static volatile boolean reflectionBroken;
     private static Field spriteNameField;
@@ -57,10 +59,25 @@ public final class LevezaHooks {
                 return meta;
             }
             BufferedImage img = images[0];
-            int w = img.getWidth();
-            int h = img.getHeight();
             spritesSeen.incrementAndGet();
             String name = spriteName(sprite);
+
+            // cache de decodificação: a imagem pode já ter chegado reduzida do disco
+            String loc = LevezaCache.active() ? location(name) : null;
+            LevezaCache.Seen seen = LevezaCache.takeSeen(loc);
+            LevezaCache.Hit hit = LevezaCache.takeHit(loc);
+            if (hit != null) {
+                Object fromCache = applyHit(cfg, hit, name, img, meta);
+                if (fromCache != NO_HIT) {
+                    return fromCache;
+                }
+                // divergência: volta para a imagem original e segue o caminho normal (e regrava o cache)
+                images[0] = img = LevezaCache.decodeOriginal(hit);
+                seen = new LevezaCache.Seen(hit.entry.sha, hit.original.length);
+            }
+
+            int w = img.getWidth();
+            int h = img.getHeight();
             if (isIgnored(cfg, name)) {
                 count(meta != null, (long) w * h, (long) w * h);
                 return meta;
@@ -79,6 +96,7 @@ public final class LevezaHooks {
                 dropMips(images);
                 count(false, (long) w * h, (long) (w / f) * (h / f));
                 reduced(cfg, name, w, h, images[0], 1);
+                LevezaCache.store(loc, seen, images[0], 1, -1);
                 return null;
             }
 
@@ -108,11 +126,75 @@ public final class LevezaHooks {
             dropMips(images);
             count(true, (long) w * h, (long) images[0].getWidth() * images[0].getHeight());
             reduced(cfg, name, w, h, images[0], step);
+            LevezaCache.store(loc, seen, images[0], step, metaFrameTimeField.getInt(meta));
             return newMeta;
         } catch (Throwable t) {
             failOnce(t);
             return meta;
         }
+    }
+
+    private static final Object NO_HIT = new Object();
+    static final AtomicLong cacheHitsApplied = new AtomicLong();
+
+    /** Valida uma textura vinda do cache e devolve o metadata a usar, ou NO_HIT se precisar da original. */
+    private static Object applyHit(LevezaConfig cfg, LevezaCache.Hit hit, String name, BufferedImage img, Object meta)
+            throws Exception {
+        LevezaCache.Entry e = hit.entry;
+        if (isIgnored(cfg, name) || img.getWidth() != e.w || img.getHeight() != e.h) {
+            return NO_HIT;
+        }
+        if (meta == null) {
+            if (e.frameTime != -1) {
+                return NO_HIT;
+            }
+            count(false, (long) e.w * e.h, (long) e.w * e.h);
+            cacheHitsApplied.incrementAndGet();
+            return null;
+        }
+        List<?> explicitFrames = (List<?>) metaFramesField.get(meta);
+        int frameTime = metaFrameTimeField.getInt(meta);
+        boolean sequential = explicitFrames == null || explicitFrames.isEmpty();
+        if (e.frameTime != frameTime || (e.step > 1 && !sequential)) {
+            return NO_HIT;
+        }
+        count(true, (long) e.w * e.h, (long) e.w * e.h);
+        cacheHitsApplied.incrementAndGet();
+        if (e.step <= 1) {
+            return meta;
+        }
+        return metaCtor.newInstance(new ArrayList<Object>(),
+                metaWidthField.getInt(meta), metaHeightField.getInt(meta), Math.max(1, frameTime) * e.step);
+    }
+
+    /** Início de TextureMap.loadTextureAtlas: guarda o basePath (textures/blocks ou textures/items). */
+    public static void enterTextureMap(Object textureMap) {
+        try {
+            if (textureMapBasePathField == null) {
+                textureMapBasePathField = findField(textureMap.getClass(), "field_94254_c", "basePath");
+            }
+            Object v = textureMapBasePathField.get(textureMap);
+            CURRENT_BASE_PATH.set(v == null ? null : v.toString());
+        } catch (Throwable t) {
+            CURRENT_BASE_PATH.remove();
+        }
+    }
+
+    /** Início de SimpleResource.getInputStream. */
+    public static void onGetInputStream(Object resource) {
+        LevezaCache.onGetInputStream(resource);
+    }
+
+    /** ResourceLocation do PNG do sprite no atlas atual, no mesmo formato de ResourceLocation.toString(). */
+    static String location(String spriteName) {
+        String base = CURRENT_BASE_PATH.get();
+        if (base == null || spriteName == null) {
+            return null;
+        }
+        int c = spriteName.indexOf(':');
+        String domain = c < 0 ? "minecraft" : spriteName.substring(0, c).toLowerCase(Locale.ROOT);
+        String path = c < 0 ? spriteName : spriteName.substring(c + 1);
+        return domain + ":" + base + "/" + path + ".png";
     }
 
     private static void count(boolean animated, long before, long after) {
@@ -224,6 +306,9 @@ public final class LevezaHooks {
         long aa = animAfter.getAndSet(0);
         long sb = staticBefore.getAndSet(0);
         long sa = staticAfter.getAndSet(0);
+        long fromCache = cacheHitsApplied.getAndSet(0);
+        LevezaCache.endOfStitch();
+        CURRENT_BASE_PATH.remove();
         if (seen == 0) {
             return;
         }
@@ -231,7 +316,8 @@ public final class LevezaHooks {
                 "Atlas: %d de %d sprites reduzidos | animações %.0f -> %.0f MiB (heap residente, sem mipmaps)"
                         + " | estáticos %.0f -> %.0f MiB | texturas avulsas na sessão: %d reduzidas, %.0f -> %.0f MiB",
                 red, seen, mib(ab), mib(aa), mib(sb), mib(sa),
-                uploadsReduced.get(), mib(uploadBefore.get()), mib(uploadAfter.get())));
+                uploadsReduced.get(), mib(uploadBefore.get()), mib(uploadAfter.get()))
+                + " | " + fromCache + " vindos do " + LevezaCache.summary());
     }
 
     private static double mib(long px) {
@@ -280,10 +366,9 @@ public final class LevezaHooks {
         if (spriteNameField != null) {
             return;
         }
-        Class<?> spriteClass = sprite.getClass();
-        Field name = findField(spriteClass, "field_110984_i", "iconName");
+        Field name = findField(sprite.getClass(), "field_110984_i", "iconName");
         Class<?> metaClass = Class.forName("net.minecraft.client.resources.data.AnimationMetadataSection",
-                false, spriteClass.getClassLoader());
+                false, sprite.getClass().getClassLoader());
         metaFramesField = findField(metaClass, "field_110478_a", "animationFrames");
         metaWidthField = findField(metaClass, "field_110476_b", "frameWidth");
         metaHeightField = findField(metaClass, "field_110477_c", "frameHeight");

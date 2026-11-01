@@ -34,7 +34,8 @@ if [ "${1:-}" = "test" ]; then
   : "${MC_JAR:?defina MC_JAR com o bin/minecraft.jar do pack}"
   fetch https://libraries.minecraft.net/org/lwjgl/lwjgl/lwjgl/2.9.1/lwjgl-2.9.1.jar "$LIBS/lwjgl-2.9.1.jar"
   fetch https://libraries.minecraft.net/com/google/guava/guava/17.0/guava-17.0.jar "$LIBS/guava-17.0.jar"
-  TCP="$CP:$LIBS/lwjgl-2.9.1.jar:$LIBS/guava-17.0.jar:build/classes"
+  fetch https://libraries.minecraft.net/com/google/code/gson/gson/2.2.4/gson-2.2.4.jar "$LIBS/gson-2.2.4.jar"
+  TCP="$CP:$LIBS/lwjgl-2.9.1.jar:$LIBS/guava-17.0.jar:$LIBS/gson-2.2.4.jar:build/classes"
   rm -rf build/test-classes && mkdir -p build/test-classes
   javac --release 8 -nowarn -encoding UTF-8 -cp "$TCP" -d build/test-classes $(find src/test/java -name '*.java')
   # mapeamento obf -> SRG que o próprio FML usa em runtime
