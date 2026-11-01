@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+FMLCorePlugin: br.com.redeakashic.leveza.LevezaPlugin
+FMLCorePluginContainsFMLMod: true
+ForceLoadAsMod: true
+Implementation-Version: ${version}

@@ -1,0 +1,13 @@
+[
+  {
+    "modid": "akashicleveza",
+    "name": "Akashic Leveza",
+    "description": "Reduz o consumo de RAM e VRAM das texturas no carregamento: animações do atlas (frames e resolução), ícones e texturas de modelo grandes, texturas avulsas gigantes e as texturas do Reika fora de assets/. Nenhum arquivo é alterado. Configuração em config/akashic-leveza.properties. Somente cliente.",
+    "version": "${version}",
+    "mcversion": "1.7.10",
+    "authorList": ["Rede Akashic"],
+    "credits": "Rede Akashic",
+    "url": "",
+    "dependencies": []
+  }
+]

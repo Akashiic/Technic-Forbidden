@@ -21,7 +21,7 @@ e até **180 frames** (o `roundflare.png` tem 256×46080 pixels).
 |---|---:|---:|---:|
 | Texturas animadas: heap **residente** a sessão toda (mipmap 4) | **~497 MiB** | ~125 MiB | ~70 MiB |
 | …dos quais só o ChromatiCraft | ~441 MiB | — | — |
-| Atlas estático: pico no carregamento + VRAM | ~230 MiB | ~149 MiB | ~113 MiB |
+| Atlas estático: pico no carregamento + VRAM | ~230 MiB | ~168 MiB | ~132 MiB |
 | Texturas de entidade/modelo (transiente no heap + VRAM) | ~1412 MiB | ~1066 MiB | ~875 MiB |
 
 Com `mipmapLevels:0` (aplicado nos perfis leve/batata), o que resta das animações cai mais ~25%.
@@ -35,7 +35,24 @@ Outros pontos encontrados:
 | JourneyMap 6 | mapa topográfico ligado (mais um conjunto de imagens de região na RAM) | desligado nos perfis leve/batata |
 | JurassiCraft | texturas de dinossauro com **4096×4096** (64 MiB de `int[]` cada vez que carregam, e mais 64 MiB de VRAM) | reduzidas para 1024 no perfil leve |
 
-## Como aplicar (no PC onde vocês montam o pack)
+## Caminho recomendado: o mod Akashic Leveza
+
+As reduções de textura agora existem como mod: [`mods-fonte/akashic-leveza`](../mods-fonte/akashic-leveza/README.md).
+Ele faz o mesmo que o script, só que em memória e na hora do carregamento:
+- não gera arquivos e não precisa ser refeito quando um mod atualiza;
+- também alcança as texturas do Reika fora de `assets/`, que o script não consegue tocar.
+
+Medido passando as 39.999 texturas de blocos/itens do pack pelo `loadSprite` real do jogo: as animações
+caem de **361 → 83 MiB** no perfil `leve` e para **43 MiB** no `batata` (sem mipmaps), com **0** texturas
+passando a falhar. O mod ainda precisa ser validado dentro do jogo.
+
+Usando o mod, rode só a parte de configs deste pacote:
+
+```bash
+python3 otimizacao-ram/ferramentas/aplicar_otimizacoes.py "CAMINHO/.minecraft" --perfil leve --sem-texturas
+```
+
+## Alternativa sem mod: o script (no PC onde vocês montam o pack)
 
 Requer Python 3.8+ e Pillow (`pip install pillow`).
 
@@ -62,8 +79,8 @@ Depois é só empacotar o zip do Technic normalmente: as texturas geradas ficam 
 |---|---:|---:|---:|---:|---:|---|
 | `qualidade` | 128 | sem corte | 128 | 1024 | 2048 | PC bom; só corta os exageros |
 | `equilibrado` | 64 | sem corte | 64 | 512 | 2048 | PC médio |
-| **`leve`** (padrão) | 64 | 64 | 32 | 256 | 1024 | PC fraco / notebook com vídeo integrado |
-| `batata` | 32 | 32 | 16 | 128 | 512 | celular (Pojav etc.) / PC muito fraco |
+| **`leve`** (padrão) | 64 | 64 | 64 | 256 | 1024 | PC fraco / notebook com vídeo integrado |
+| `batata` | 32 | 32 | 32 | 128 | 512 | celular (Pojav etc.) / PC muito fraco |
 
 Quando uma animação tem mais frames que o limite, a ferramenta mantém 1 a cada N frames e
 multiplica o `frametime` por N. Assim a duração da animação continua a mesma; ela só fica menos fluida.
@@ -74,7 +91,8 @@ multiplica o `frametime` por N. Assim a duração da animação continua a mesma
   `config/txloader/load/<dominio>/…`. O TX Loader, que já está no pack, carrega essa pasta como
   resource pack **acima dos mods e abaixo dos resource packs do jogador**.
 - A redução usa só fatores de 2 (filtro de média por área), então as proporções e as UVs continuam
-  exatas. Nada fica menor que 16px nos perfis padrão (o `batata` vai a 16 nos ícones).
+  exatas. Nada fica menor que 16px, e um sprite múltiplo de 16 nunca vira um tamanho que não seja
+  múltiplo de 16. Assim as folhas de CTM do Chisel (grades de 16px) e o nível de mipmap do atlas ficam intactos.
 - O `.mcmeta` sempre acompanha o PNG gerado. Isso é obrigatório: o resource manager do 1.7.10 só
   procura o `.mcmeta` no pack que forneceu o PNG ou acima dele.
 - O que **não** é tocado:
@@ -133,7 +151,7 @@ medida. Para confirmar no jogo:
    24+, a `-XX:+UseCompactObjectHeaders`, que corta ~10 a 20% de todo o heap. Já existem
    `lwjgl3ify.cfg`/`lwjgl3ify-early.json` sobrando no `config/`, sinal de que isso já foi tentado.
    Os mods do Reika (DragonAPI) e o OreSpawn são os de maior risco de incompatibilidade.
-2. **Coremod para as texturas `Reika/ChromatiCraft/Textures`**, as que ficam fora de `assets/`.
+2. ~~Coremod para as texturas `Reika/ChromatiCraft/Textures`~~: feito no Akashic Leveza (`reduzir.reika`).
 3. **Revisar os mods que se sobrepõem**, como JurassiCraft + Fossils (dois mods de dinossauro com
    modelos e texturas enormes) e Opis no cliente (é um profiler de servidor, ~3.500 classes).
 4. Remover configs órfãos de mods que já saíram do pack (`lwjgl3ify*`, `FpsReducer/`,

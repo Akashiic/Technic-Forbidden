@@ -49,8 +49,8 @@ PERFIS = {
     # outros: lado máx. das demais texturas (entidades, modelos, efeitos)
     "qualidade":   dict(anim=128, frames=9999, estatico=128, modelo=1024, outros=2048),
     "equilibrado": dict(anim=64,  frames=9999, estatico=64,  modelo=512,  outros=2048),
-    "leve":        dict(anim=64,  frames=64,   estatico=32,  modelo=256,  outros=1024),
-    "batata":      dict(anim=32,  frames=32,   estatico=16,  modelo=128,  outros=512),
+    "leve":        dict(anim=64,  frames=64,   estatico=64,  modelo=256,  outros=1024),
+    "batata":      dict(anim=32,  frames=32,   estatico=32,  modelo=128,  outros=512),
 }
 
 # Domínios que nunca devem ser tocados (fontes com métricas em pixel, menus nativos, vanilla).
@@ -73,8 +73,12 @@ def dim_png(dados):
 
 def fator_pot2(lado, limite, minimo=16):
     """Menor fator 2^n tal que lado/fator <= limite, sem passar do mínimo e mantendo divisão exata."""
+    # Lado múltiplo de 16 nunca vira lado não múltiplo de 16 (folhas de CTM e nível de mipmap do atlas).
     f = 1
-    while lado // f > limite and lado % (f * 2) == 0 and lado // (f * 2) >= min(minimo, limite):
+    piso = min(minimo, limite)
+    alinhado = lado % 16 == 0
+    while (lado // f > limite and lado % (f * 2) == 0 and lado // (f * 2) >= piso
+           and (not alinhado or (lado // (f * 2)) % 16 == 0 or (lado // (f * 2) < 16 and piso < 16))):
         f *= 2
     return f
 
