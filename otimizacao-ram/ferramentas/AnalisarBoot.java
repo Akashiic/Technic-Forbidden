@@ -14,6 +14,8 @@ import java.util.Map;
  * Lê uma gravação JFR do boot do Minecraft (thread "Client thread") e mostra para onde foi o tempo.
  *
  *   java AnalisarBoot.java boot.jfr [quantidade]
+ *   java AnalisarBoot.java boot.jfr quem <regex do método no topo ou em qualquer frame>
+ *        mostra quem chama (primeiros frames fora do JDK) os trechos que casam com a regex
  *
  * Gravação: no Java 8 (8u262+) adicione aos argumentos da JVM
  *   -XX:StartFlightRecording=name=boot,settings=profile,maxsize=2g
@@ -22,12 +24,18 @@ import java.util.Map;
  */
 public class AnalisarBoot {
 
+    static final boolean INCLUIR_NATIVO = Boolean.getBoolean("nativo");
+
     static final String[] FRAMEWORK = {"java.", "javax.", "sun.", "jdk.", "com.sun.", "cpw.mods.fml.", "net.minecraft.",
             "net.minecraftforge.", "com.google.", "org.apache.", "org.objectweb.", "org.spongepowered.", "com.llamalad7.",
             "scala.", "kotlin.", "io.netty.", "gnu.trove.", "it.unimi.", "org.lwjgl."};
 
     public static void main(String[] args) throws Exception {
         Path file = Path.of(args[0]);
+        if (args.length > 2 && args[1].equals("quem")) {
+            quem(file, java.util.regex.Pattern.compile(args[2]));
+            return;
+        }
         int top = args.length > 1 ? Integer.parseInt(args[1]) : 25;
         Map<String, Long> byMod = new HashMap<>();
         Map<String, Long> byCause = new HashMap<>();
@@ -42,7 +50,10 @@ public class AnalisarBoot {
             while (rf.hasMoreEvents()) {
                 RecordedEvent e = rf.readEvent();
                 String type = e.getEventType().getName();
-                if (!type.equals("jdk.ExecutionSample") && !type.equals("jdk.NativeMethodSample")) {
+                // Só amostras de execução Java: no JFR do Java 8 as amostras nativas usam outra frequência e
+                // outra regra de seleção de threads, então misturar as duas distorce as porcentagens.
+                if (!type.equals("jdk.ExecutionSample")
+                        && !(INCLUIR_NATIVO && type.equals("jdk.NativeMethodSample"))) {
                     continue;
                 }
                 RecordedThread t = e.getThread("sampledThread");
@@ -85,6 +96,56 @@ public class AnalisarBoot {
             }
             System.out.println(sb);
         });
+    }
+
+    static void quem(Path file, java.util.regex.Pattern pat) throws Exception {
+        Map<String, Long> callers = new HashMap<>();
+        Map<String, Long> chains = new HashMap<>();
+        Map<String, Long> roots = new HashMap<>();
+        long total = 0;
+        long hits = 0;
+        try (RecordingFile rf = new RecordingFile(file)) {
+            while (rf.hasMoreEvents()) {
+                RecordedEvent e = rf.readEvent();
+                String type = e.getEventType().getName();
+                if (!type.equals("jdk.ExecutionSample") && !(INCLUIR_NATIVO && type.equals("jdk.NativeMethodSample"))) continue;
+                RecordedThread t = e.getThread("sampledThread");
+                if (t == null || !"Client thread".equals(t.getJavaName()) || e.getStackTrace() == null) continue;
+                total++;
+                List<RecordedFrame> fr = e.getStackTrace().getFrames();
+                int idx = -1;
+                for (int i = 0; i < fr.size(); i++) {
+                    if (pat.matcher(name(fr.get(i))).find()) { idx = i; break; }
+                }
+                if (idx < 0) continue;
+                hits++;
+                // primeiros 3 frames abaixo do trecho que não são do JDK
+                List<String> out = new ArrayList<>();
+                for (int i = idx + 1; i < fr.size() && out.size() < 3; i++) {
+                    String n = name(fr.get(i));
+                    if (n.startsWith("java.") || n.startsWith("sun.") || n.startsWith("jdk.")) continue;
+                    out.add(n);
+                }
+                callers.merge(out.isEmpty() ? "?" : out.get(0), 1L, Long::sum);
+                roots.merge(modOf(fr) + "  (" + rootHandler(fr) + ")", 1L, Long::sum);
+                chains.merge(String.join("  <-  ", out), 1L, Long::sum);
+            }
+        }
+        System.out.printf("Amostras com %s: %d de %d (%.1f%% da thread principal)%n%n", pat, hits, total, 100.0 * hits / total);
+        print("MOD DE ORIGEM (handler do FML ou listener)", roots, total, 15);
+        print("CHAMADOR DIRETO", callers, total, 20);
+        print("CADEIA (3 níveis)", chains, total, 15);
+    }
+
+    /** Primeiro método de mod logo acima do despacho do FML/EventBus/recarga de recursos. */
+    static String rootHandler(List<RecordedFrame> fr) {
+        for (int i = fr.size() - 1; i >= 0; i--) {
+            String cls = fr.get(i).getMethod().getType().getName();
+            if (!isFramework(cls)) {
+                return cls.substring(cls.lastIndexOf('.') + 1) + "." + fr.get(i).getMethod().getName();
+            }
+        }
+        return "?";
     }
 
     /** Mod = primeiro frame fora dos frameworks, procurando da base (raiz) para o topo. */
