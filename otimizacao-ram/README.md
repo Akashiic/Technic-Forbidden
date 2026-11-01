@@ -30,7 +30,7 @@ Outros pontos encontrados:
 
 | Item | Situação | Ação |
 |---|---|---|
-| CoreTweaks: cache de transformers | `liteTransformerCacheMaxSizeMB=256` e `useDiffsInTransformerCache=false`: até 256 MiB presos no heap durante o boot, bem na hora do stitch das texturas | 128 MiB (64 no batata) + diffs ligados (-40 a 70% de tamanho) |
+| CoreTweaks: cache de transformers | `liteTransformerCacheMaxSizeMB=256` e `useDiffsInTransformerCache=false` | **Manter como está.** Diffs + teto de 128 MiB foram testados e deixaram o boot do jogador ~70 s mais lento (ver BOOT.md); o script agora devolve os valores do pack |
 | Hodgepodge | `internResourceLocationDomain` e `internUniqueIdentifierModid` desligados | ligados (ganho pequeno, mas de graça) |
 | JourneyMap 6 | mapa topográfico ligado (mais um conjunto de imagens de região na RAM) | desligado nos perfis leve/batata |
 | JurassiCraft | texturas de dinossauro com **4096×4096** (64 MiB de `int[]` cada vez que carregam, e mais 64 MiB de VRAM) | reduzidas para 1024 no perfil leve |

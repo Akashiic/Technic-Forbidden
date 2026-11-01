@@ -147,6 +147,42 @@ estava nessa lista**, e isso pode derrubar o boot de jogadores mesmo sem o Levez
   cliente, e o registro dos ícones de blocos levou 2.294 ms. Na mesma instância com a beta.48, levou 2.296 a
   2.448 ms: sem custo mensurável.
 
+## Logs do jogador com Leveza + ThePatcher beta.49 (01/11/2026): o boot piorou por causa do CoreTweaks
+
+Windows, Zulu 8u512, `-Xmx6144m`, sem `AlwaysPreTouch`, com `UseStringDeduplication`.
+
+| Fase | beta.48 sem Leveza, cache quente (367 s) | beta.49 + Leveza, cache quente (437 s) |
+|---|---:|---:|
+| Antes do FML | 53 s | 52 s |
+| Construction | 20,8 s | 33,9 s |
+| PreInit | 86,8 s | 113,3 s |
+| Init | 69,8 s | 80,8 s |
+| PostInit | 65,8 s | 62,8 s |
+| LoadComplete | 15,4 s | 22,1 s |
+| Recarga final (texturas, sons) | 43 s | 55 s |
+
+O 1º boot com as configs novas levou 638 s: o CoreTweaks avisou `Transformer cache settings have changed,
+discarding` e refez o cache do zero.
+
+**Causa provável: as configs do CoreTweaks que o `aplicar_otimizacoes.py` trocava** (`useDiffsInTransformerCache=true`,
+`liteTransformerCacheMaxSizeMB=128`):
+- a própria descrição da opção diz que diffs deixam cada classe vinda do cache ~25% mais lenta, e a criação do cache
+  50 a 100% mais lenta;
+- com o teto de 128 MB, o cache carregou 199.113 entradas em vez de 219.933; as ~21 mil classes descartadas voltam
+  a passar por todos os transformers;
+- a perda aparece onde mais classes são carregadas (Construction +63%, PreInit +30%; ChromatiCraft, que dispara os
+  transformers do Reika, foi de 3,7 s para 6,7 s no PreInit), e não no PostInit, que é cálculo (Thaumcraft).
+
+O script agora devolve os valores do pack (`false` e `256`). Ao voltar, o CoreTweaks descarta o cache mais uma vez:
+o 1º boot depois disso é lento, e a medida vale a partir do 2º.
+
+O resto, nesses logs:
+- **ThePatcher beta.49** funcionou: as linhas `cross-dependent block` e `crossDependentSyncBlocks=36` aparecem, sem
+  `Parallel block icon registration failed`.
+- **Leveza** funcionou: animações do atlas de blocos de 319 para 78 MiB e estáticos do atlas de itens de 59 para
+  33 MiB. Ele é para RAM, não para boot. No log, os atlas finais demoraram mais (blocos 17,5 para 23,2 s), mas
+  todas as fases ficaram mais lentas nesse boot, então isso não separa o custo do Leveza do resto.
+
 ## O que mais daria ganho (próximos passos)
 
 Thaumcraft `generateTags` e Eln `recipeExists` precisam de patch. Pelo que o GeckoLib (9% no JFR → 4 s

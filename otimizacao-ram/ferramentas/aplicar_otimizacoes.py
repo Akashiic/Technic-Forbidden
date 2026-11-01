@@ -10,7 +10,8 @@ Aplica o pacote de otimização de RAM do Technic Forbidden em uma pasta .minecr
 Passos:
   1. Configs (com backup *.bak-otimizacao na primeira alteração):
      - hodgepodge.cfg : internResourceLocationDomain / internUniqueIdentifierModid = true
-     - coretweaks.cfg : cache de transformers com diffs e teto menor (pico de RAM no boot)
+     - coretweaks.cfg : volta o cache de transformers aos valores do pack (sem diffs, 256 MB). Diffs + teto
+                        menor deixaram o boot do jogador ~70 s mais lento (437 s x 367 s), ver BOOT.md
      - options.txt    : mipmapLevels (leve/batata = 0)
      - journeymap     : desliga o mapa topográfico (leve/batata)
   2. Texturas: chama otimizar_texturas.py com o mesmo perfil.
@@ -33,9 +34,10 @@ LEVES = ("leve", "batata")
 AJUSTES = [
     ("config/hodgepodge.cfg", r"(B:internResourceLocationDomain=)(\w+)", "true", TODOS),
     ("config/hodgepodge.cfg", r"(B:internUniqueIdentifierModid=)(\w+)", "true", TODOS),
-    ("config/coretweaks.cfg", r"(B:useDiffsInTransformerCache=)(\w+)", "true", TODOS),
-    ("config/coretweaks.cfg", r"(I:liteTransformerCacheMaxSizeMB=)(-?\d+)", "128", ("qualidade", "equilibrado", "leve")),
-    ("config/coretweaks.cfg", r"(I:liteTransformerCacheMaxSizeMB=)(-?\d+)", "64", ("batata",)),
+    # valores originais do pack: diffs custam ~25% por classe vinda do cache e o teto de 128 MB descartava
+    # ~21 mil entradas; o pico de RAM que isso evitava é pequeno perto do tempo perdido em todo boot
+    ("config/coretweaks.cfg", r"(B:useDiffsInTransformerCache=)(\w+)", "false", TODOS),
+    ("config/coretweaks.cfg", r"(I:liteTransformerCacheMaxSizeMB=)(-?\d+)", "256", TODOS),
     ("options.txt", r"(?m)^(mipmapLevels:)(\d+)", "0", LEVES),
     ("journeymap/config/6.0/journeymap.core.config", r'("mapTopography":\s*")(\w+)"', "false", LEVES),
 ]
