@@ -131,13 +131,21 @@ chamado por `ganymedes01.etfuturum.blocks.BlockRedSandstoneSlab.registerBlockIco
 trabalho do `registerBlockIconsHybrid` (módulo AsyncCompat). A laje de arenito vermelho do Et Futurum lê
 os ícones do arenito vanilla durante o próprio registro. Em paralelo, eles podem ainda não existir.
 
-O `CompatHooks` do ThePatcher força para a thread principal só `team.chisel.`, `com.cricketcraft.chisel.`,
-`mekanism.`, `powercrystals.minefactoryreloaded.` e `cofh.`, numa lista fixa no código. **O Et Futurum não
-está nela**, e isso pode derrubar o boot de jogadores mesmo sem o Leveza: é questão de tempo entre threads.
-Correção sugerida no ThePatcher:
-1. Incluir `ganymedes01.etfuturum.` nessa lista.
-2. Garantir que os blocos vanilla de que ele depende já tenham registrado os ícones, ou rodar o Et
-   Futurum depois de esperar os jobs assíncronos.
+O `CompatHooks` do ThePatcher (beta.34 a beta.48) força para a thread principal só `team.chisel.`,
+`com.cricketcraft.chisel.`, `mekanism.`, `powercrystals.minefactoryreloaded.` e `cofh.`. **O Et Futurum não
+estava nessa lista**, e isso pode derrubar o boot de jogadores mesmo sem o Leveza: depende do tempo entre as threads.
+
+**Corrigido no Akashic-ThePatcher 1.1.0-beta.49 "BlockIconCrossDeps"** (repositório AkashicThePatcher,
+`versions/Akashic-ThePatcher-1.1.0-beta.49-BlockIconCrossDeps/`):
+- Uma varredura do bytecode dos 215 jars do pack achou **28 classes de bloco** que leem o ícone de outro bloco
+  durante o próprio registro: Et Futurum (lajes, muro, casca), ChromatiCraft, ReactorCraft, RotaryCraft,
+  Twilight Forest, Magic Bees, Botania, Thaumic Horizons e Extra Utilities.
+- Esses blocos (e subclasses) agora rodam na thread do cliente. Antes, o laço híbrido espera todos os jobs
+  enviados antes deles, e os blocos que eles leem vêm antes no registro, como no vanilla.
+- Kill-switch: `-Dakashic.iconCrossDeps.disable=true`.
+- No cliente real, 25 das 28 classes estão no registro do pack (36 blocos), todas foram para a thread do
+  cliente, e o registro dos ícones de blocos levou 2.294 ms. Na mesma instância com a beta.48, levou 2.296 a
+  2.448 ms: sem custo mensurável.
 
 ## O que mais daria ganho (próximos passos)
 
