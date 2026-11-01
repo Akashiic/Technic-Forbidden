@@ -89,7 +89,7 @@ final class ReikaPrefilter {
     }
 
     /** Embrulho colocado na lista do LaunchClassLoader. */
-    static final class Wrapper implements IClassTransformer {
+    static class Wrapper implements IClassTransformer {
         final IClassTransformer delegate;
         final Rule rule;
 
@@ -143,7 +143,7 @@ final class ReikaPrefilter {
                     }
                     Rule r = ruleFor(t);
                     if (r != null) {
-                        list.set(i, new Wrapper(t, r)); // set() não altera modCount: seguro durante a iteração
+                        list.set(i, newWrapper(t, r)); // set() não altera modCount: seguro durante a iteração
                         wrapped++;
                         LevezaLog.info("Pre-filtro instalado para " + r.transformerClass + " (" + t.getClass().getName() + ")");
                     }
@@ -154,6 +154,21 @@ final class ReikaPrefilter {
             broken = true;
             LevezaLog.error("Pre-filtro dos transformers do Reika desativado (erro ao instalar).", t);
         }
+    }
+
+    private static volatile boolean mixinAware = true;
+
+    /** Usa o embrulho que fala com o Mixin; se o Mixin não existir em tempo de execução, o simples. */
+    static Wrapper newWrapper(IClassTransformer t, Rule r) {
+        if (mixinAware) {
+            try {
+                return new MixinAwareWrapper(t, r);
+            } catch (Throwable e) {
+                mixinAware = false;
+                LevezaLog.warn("Mixin ausente: pre-filtro usa o embrulho simples.");
+            }
+        }
+        return new Wrapper(t, r);
     }
 
     private static Field cachedField;

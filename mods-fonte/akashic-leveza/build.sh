@@ -21,8 +21,10 @@ fetch https://libraries.minecraft.net/org/apache/logging/log4j/log4j-api/2.0-bet
 [ -f "$FORGE_JAR" ] || { echo "Forge não encontrado: $FORGE_JAR (defina FORGE_JAR)"; exit 1; }
 CP="$FORGE_JAR:$LIBS/asm-all-5.0.3.jar:$LIBS/launchwrapper-1.12.jar:$LIBS/log4j-api-2.0-beta9.jar"
 
-rm -rf build/classes && mkdir -p build/classes
-javac --release 8 -nowarn -encoding UTF-8 -cp "$CP" -d build/classes $(find src/main/java -name '*.java')
+rm -rf build/classes build/stubs && mkdir -p build/classes build/stubs
+# stubs de interfaces do Mixin: só para compilar, não entram no jar (a classe real vem do UniMixins)
+javac --release 8 -nowarn -encoding UTF-8 -d build/stubs $(find src/stubs/java -name '*.java')
+javac --release 8 -nowarn -encoding UTF-8 -cp "$CP:build/stubs" -d build/classes $(find src/main/java -name '*.java')
 sed "s/\${version}/$VERSION/" src/main/resources/mcmod.info > build/classes/mcmod.info
 sed "s/\${version}/$VERSION/" src/main/resources/META-INF/MANIFEST.MF > build/MANIFEST.MF
 JAR="build/Akashic-Leveza-$VERSION-client.jar"
@@ -35,7 +37,7 @@ if [ "${1:-}" = "test" ]; then
   fetch https://libraries.minecraft.net/org/lwjgl/lwjgl/lwjgl/2.9.1/lwjgl-2.9.1.jar "$LIBS/lwjgl-2.9.1.jar"
   fetch https://libraries.minecraft.net/com/google/guava/guava/17.0/guava-17.0.jar "$LIBS/guava-17.0.jar"
   fetch https://libraries.minecraft.net/com/google/code/gson/gson/2.2.4/gson-2.2.4.jar "$LIBS/gson-2.2.4.jar"
-  TCP="$CP:$LIBS/lwjgl-2.9.1.jar:$LIBS/guava-17.0.jar:$LIBS/gson-2.2.4.jar:build/classes"
+  TCP="$CP:$LIBS/lwjgl-2.9.1.jar:$LIBS/guava-17.0.jar:$LIBS/gson-2.2.4.jar:build/classes:build/stubs"
   rm -rf build/test-classes && mkdir -p build/test-classes
   javac --release 8 -nowarn -encoding UTF-8 -cp "$TCP" -d build/test-classes $(find src/test/java -name '*.java')
   # mapeamento obf -> SRG que o próprio FML usa em runtime
