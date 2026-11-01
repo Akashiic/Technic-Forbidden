@@ -57,6 +57,14 @@ public final class LevezaSelfTest {
             verify("Reika.DragonAPI.IO.ReikaTextureBinder", after, mc);
         }
 
+        // o EventBus do Forge chama o handler a partir de uma classe gerada: tudo precisa ser public
+        Class<?> ev = ClientEvents.class;
+        Method handler = ev.getMethod("onStitchPost", net.minecraftforge.client.event.TextureStitchEvent.Post.class);
+        check(java.lang.reflect.Modifier.isPublic(ev.getModifiers())
+                && java.lang.reflect.Modifier.isPublic(ev.getConstructor().getModifiers())
+                && java.lang.reflect.Modifier.isPublic(handler.getModifiers()),
+                "handler de evento público (classe, construtor e método)");
+
         Properties p = new Properties();
         p.setProperty("perfil", "leve");
         LevezaConfig.reset(p);
