@@ -59,6 +59,10 @@ public final class LevezaHooks {
                 return meta;
             }
             BufferedImage img = images[0];
+            String base = CURRENT_BASE_PATH.get();
+            if (cfg.onlyVanillaAtlas && !"textures/blocks".equals(base) && !"textures/items".equals(base)) {
+                return meta; // atlas próprio de mod, ou loadSprite chamado fora do TextureMap: não mexer
+            }
             spritesSeen.incrementAndGet();
             String name = spriteName(sprite);
 
@@ -308,12 +312,13 @@ public final class LevezaHooks {
         long sa = staticAfter.getAndSet(0);
         long fromCache = cacheHitsApplied.getAndSet(0);
         LevezaCache.endOfStitch();
+        String base = CURRENT_BASE_PATH.get();
         CURRENT_BASE_PATH.remove();
         if (seen == 0) {
             return;
         }
         LevezaLog.info(String.format(Locale.ROOT,
-                "Atlas: %d de %d sprites reduzidos | animações %.0f -> %.0f MiB (heap residente, sem mipmaps)"
+                "Atlas " + base + ": %d de %d sprites reduzidos | animações %.0f -> %.0f MiB (heap residente, sem mipmaps)"
                         + " | estáticos %.0f -> %.0f MiB | texturas avulsas na sessão: %d reduzidas, %.0f -> %.0f MiB",
                 red, seen, mib(ab), mib(aa), mib(sb), mib(sa),
                 uploadsReduced.get(), mib(uploadBefore.get()), mib(uploadAfter.get()))

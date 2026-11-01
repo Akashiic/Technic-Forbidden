@@ -78,6 +78,8 @@ public final class LevezaSelfTest {
         Method load = spriteClass.getDeclaredMethod("func_147964_a", BufferedImage[].class, metaClass, boolean.class);
         load.setAccessible(true);
 
+        LevezaHooks.enterTextureMap(new FakeTextureMap("textures/blocks"));
+
         // 1) animação estilo roundflare: 256x(256*180), frametime 1 -> 64px, 1 a cada 3 frames, frametime 3
         Object sprite = spriteCtor.newInstance("chromaticraft:icons/roundflare");
         BufferedImage anim = strip(256, 180);
@@ -123,6 +125,13 @@ public final class LevezaSelfTest {
         check(staticResult(spriteCtor, load, "chisel:blocks/y", 16) == 16, "ícone 16 intacto");
         check(staticResult(spriteCtor, load, "minecraft:blocks/stone", 64) == 64, "domínio minecraft intacto");
         check(staticResult(spriteCtor, load, "stone_no_domain", 64) == 64, "sem domínio = minecraft, intacto");
+
+        // 3b) atlas próprio de mod (ex.: MatterOverdrive HoloIcons) fica intacto por padrão
+        LevezaHooks.enterTextureMap(new FakeTextureMap("textures/gui/holo"));
+        check(staticResult(spriteCtor, load, "mo:holo_icon", 128) == 128, "atlas de mod intacto (atlas.somente.vanilla)");
+        LevezaHooks.enterTextureMap(new FakeTextureMap("textures/items"));
+        check(staticResult(spriteCtor, load, "mo:items/ion_sniper", 1024) == 256, "atlas de itens reduzido");
+        LevezaHooks.enterTextureMap(new FakeTextureMap("textures/blocks"));
 
         // 4) uploads avulsos: só reduz dentro de loadTexture de SimpleTexture
         BufferedImage big = solid(4096, 2048, 0xFF336699);

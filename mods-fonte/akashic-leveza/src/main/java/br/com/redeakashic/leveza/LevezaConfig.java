@@ -41,6 +41,7 @@ final class LevezaConfig {
     final int modelMax;
     final int otherMax;
     final boolean reduceAtlas;
+    final boolean onlyVanillaAtlas;
     final boolean reduceLargeTextures;
     final boolean reduceReika;
     final boolean verbose;
@@ -69,6 +70,7 @@ final class LevezaConfig {
         this.modelMax = pow2(intOr(p, "modelo.max", v[3]));
         this.otherMax = pow2(intOr(p, "outros.max", v[4]));
         this.reduceAtlas = bool(p, "reduzir.atlas", true);
+        this.onlyVanillaAtlas = bool(p, "atlas.somente.vanilla", true);
         this.reduceLargeTextures = bool(p, "reduzir.texturas.grandes", true);
         this.reduceReika = bool(p, "reduzir.reika", true);
         this.verbose = bool(p, "log.detalhado", false);
@@ -196,6 +198,9 @@ final class LevezaConfig {
             + "reduzir.atlas=true\n"
             + "reduzir.texturas.grandes=true\n"
             + "reduzir.reika=true\n"
+            + "# Reduz so os atlas de blocos e itens do jogo (textures/blocks, textures/items). Atlas proprios de\n"
+            + "# mods (MatterOverdrive, Immersive Engineering, DragonAPI...) ficam intactos; a economia neles e minima.\n"
+            + "atlas.somente.vanilla=true\n"
             + "\n"
             + "# Dominios (modid) e prefixos de textura que nunca sao reduzidos, separados por virgula.\n"
             + "# Exemplo de prefixo: chromaticraft:icons/portalring  ou  jurassicraft:textures/entity/\n"

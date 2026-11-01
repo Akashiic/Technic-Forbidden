@@ -96,6 +96,7 @@ public final class LevezaPackScan {
                     }
                 }
                 total++;
+                LevezaHooks.enterTextureMap(new LevezaSelfTest.FakeTextureMap("textures/" + m.group(2)));
                 String only = System.getProperty("leveza.only");
                 boolean okOff = "on".equals(only) || run(profile("desligado"), spriteCtor, load, framesField, name, img, meta, off);
                 boolean okOn = "off".equals(only) || run(profile(profile), spriteCtor, load, framesField, name, img, meta, on);
