@@ -44,7 +44,13 @@ Ele faz o mesmo que o script, só que em memória e na hora do carregamento:
 
 Medido passando as 39.999 texturas de blocos/itens do pack pelo `loadSprite` real do jogo: as animações
 caem de **361 → 83 MiB** no perfil `leve` e para **43 MiB** no `batata` (sem mipmaps), com **0** texturas
-passando a falhar. O mod ainda precisa ser validado dentro do jogo.
+passando a falhar.
+
+**Validado num cliente real com o pack 5.5 completo** (cliente headless do AkashicThePatcher):
+- heap vivo no menu de 1.874 → 1.571 MB;
+- com `-Xmx2560m`, os GCs completos durante o boot foram de 3 para 0, e o tempo parado em GC de 43,6 para 28,0 s.
+
+Falta validar no Windows com GPU real.
 
 Usando o mod, rode só a parte de configs deste pacote:
 

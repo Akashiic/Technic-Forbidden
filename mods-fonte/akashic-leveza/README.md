@@ -4,9 +4,38 @@ O "FoamFix" do Technic Forbidden: um coremod **só de cliente** para Forge 1.7.1
 VRAM das texturas **na hora em que são carregadas**. Não altera nenhum arquivo e não precisa
 regenerar nada quando um mod atualiza.
 
-> Status: `0.1.0-alpha.1`. O bytecode e a lógica foram testados offline contra as classes reais do
-> jogo (ver "Testes"), mas **ainda não rodou dentro do Minecraft**. Siga o roteiro de validação abaixo
-> antes de colocar no pack público.
+> Status: `0.1.0-alpha.1`. Testado offline contra as classes reais do jogo e **validado num cliente
+> real com o pack 5.5 completo** (Forge 1614, Java 8u504, Linux, renderização por software, sem GPU
+> dedicada). Ainda falta a validação no Windows com placa de vídeo real (roteiro abaixo).
+
+## Validação no cliente real (pack 5.5 completo)
+
+Cliente montado com o `tools/headless-client` do AkashicThePatcher (Forge 1.7.10 + Xvfb + Mesa
+llvmpipe, 4 CPUs). Mesmo pack, mesma config; a única diferença é o jar do Leveza (perfil `leve`).
+O heap vivo foi medido com `jcmd GC.class_histogram` no menu principal.
+
+| Com `-Xmx6G` | Sem o Leveza | Com o Leveza |
+|---|---:|---:|
+| Heap vivo no menu | 1.874 MB | **1.571 MB (−303 MB)** |
+| …dos quais `int[]` (frames de textura) | 492 MB | **203 MB** |
+| Fase de texturas, blocos + itens (`AtlasProfile` do ThePatcher, boot frio) | 63,5 s | **51,4 s (−19%)** |
+| Tempo parado em GC no boot | 25,4 s | 21,5 s |
+
+| Com `-Xmx2560m` (perto do heap automático de 2,4 GB do celular) | Sem o Leveza | Com o Leveza |
+|---|---:|---:|
+| GCs completos durante o boot | **3** | **0** |
+| Tempo parado em GC no boot | 43,6 s | **28,0 s (−36%)** |
+| Heap vivo no menu | 1.848 MB | 1.571 MB |
+| Folga até o limite, no menu | 712 MB | **989 MB (+39%)** |
+
+Além disso:
+- O menu principal (Cinematic Menu, fontes e arte) sai idêntico com e sem o mod; as capturas foram comparadas.
+- Os 6 ganchos foram instalados no jogo: `TextureUtil`, `TextureAtlasSprite`, `TextureMap`, `SimpleResource`, `SimpleTexture` e `ReikaTextureBinder` (este com 2 métodos).
+- O "pico de heap" com `-Xmx6G` não serve de comparação: variou entre 3,2 e 4,4 GB conforme o momento do GC. A medida útil é o comportamento com o heap apertado, na tabela acima.
+
+Esse teste achou dois problemas, corrigidos antes desta versão:
+- **Crash** `IllegalAccessError` no `TextureStitchEvent.Post`: o handler de evento precisa ser `public`.
+- **Atlas próprio de mod** (31 sprites) que também era reduzido: agora fica intacto por padrão.
 
 ## Por que não o FoamFix
 
@@ -69,10 +98,15 @@ RAM tem hoje um boot arrastado (GC completo atrás de GC completo) ou um crash. 
 de acontecer na fase das texturas. Atlas menores também sobem mais rápido para a GPU, mas isso só
 dá para medir no jogo.
 
-## Cache de decodificação (acelera o boot do 2º em diante)
+## Cache de decodificação (experimental, desligado por padrão)
 
-O Leveza só consegue reduzir uma textura depois que o PNG foi decodificado em tamanho cheio. O cache
-evita isso nos boots seguintes:
+**Resultado medido no cliente real:**
+- No 2º boot, as 70 texturas do cache acertaram e 28,7 MiB de PNG deixaram de ser decodificados.
+- Mesmo assim, o tempo da fase de texturas ficou dentro do ruído (22,0–23,3 s), porque o Angelica já decodifica em paralelo.
+- O 2º boot foi mais rápido por causa do `StitchLayoutCache` do ThePatcher (stitch de 26,8 s para 0,8 s) e dos caches do CoreTweaks.
+
+Por isso o cache vem desligado. Liga com `cache.decodificacao=true` ou `-Dakashic.leveza.cache=true`;
+pode valer a pena em CPU de 2 núcleos. Como funciona:
 
 1. **1º boot:** ao ler um PNG de `textures/blocks|items` com mais de `cache.minimo.kb` (32 KB), o mod
    calcula o SHA-1 dos bytes originais. Se a textura for reduzida, a versão pequena é gravada em
@@ -89,7 +123,7 @@ evita isso nos boots seguintes:
 
 O nome da pasta do cache inclui perfil, limites, listas de exceção e versão do mod, então mudar
 qualquer um deles cria um cache novo e apaga os antigos. A pasta pode ser apagada quando quiserem.
-Para desligar: `cache.decodificacao=false` ou `-Dakashic.leveza.cache=false`.
+Desligado por padrão (ver o resultado medido acima).
 
 ## Convivência com o Akashic-ThePatcher
 
@@ -139,14 +173,17 @@ O Leveza não substitui nenhuma delas:
 
 ## Roteiro de validação no jogo
 
-1. **Log de boot (`fml-client-latest.log`):** devem aparecer 4 linhas `[AkashicLeveza] Gancho instalado em …`:
-   - `TextureAtlasSprite`
-   - `SimpleTexture`
+1. **Log de boot (`fml-client-latest.log`):** devem aparecer 6 linhas `[AkashicLeveza] Gancho instalado em …`:
    - `TextureUtil`
+   - `TextureAtlasSprite`
+   - `TextureMap`
+   - `SimpleResource`
+   - `SimpleTexture`
    - `ReikaTextureBinder`
 
-   Depois deve aparecer uma linha `Perfil leve: …`.
-2. **Após o carregamento:** deve aparecer uma linha `Atlas: N de M sprites reduzidos | animações X -> Y MiB …` por atlas.
+   Também deve aparecer uma linha `Perfil leve: …`.
+2. **Após o carregamento:** devem aparecer as linhas `Atlas textures/blocks: …` e `Atlas textures/items: …`.
+   No cliente de teste foram 150 e 378 sprites reduzidos; as animações do atlas de blocos caíram de 319 para 78 MiB.
 3. **No mundo:** ver os efeitos do ChromatiCraft (pylons, portal, flares), blocos do Chisel com CTM, um dinossauro
    do JurassiCraft e um livro/guia do ChromatiCraft.
 4. **Medição:** repetir a sessão longa do Mirai (G10) e comparar com o pico de 4,71 GiB de 6 GiB. Também vale
