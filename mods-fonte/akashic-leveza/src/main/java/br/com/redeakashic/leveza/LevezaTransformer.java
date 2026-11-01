@@ -32,9 +32,13 @@ public final class LevezaTransformer implements IClassTransformer, Opcodes {
     private static final String HOOKS = "br/com/redeakashic/leveza/LevezaHooks";
     private static final String IMG = "java/awt/image/BufferedImage";
     private static final String META = "net/minecraft/client/resources/data/AnimationMetadataSection";
+    private static final boolean PREFILTER = LevezaConfig.get().reikaPrefilter;
 
     @Override
     public byte[] transform(String name, String transformedName, byte[] bytes) {
+        if (PREFILTER) {
+            ReikaPrefilter.maybeInstall();
+        }
         if (bytes == null || transformedName == null) {
             return bytes;
         }

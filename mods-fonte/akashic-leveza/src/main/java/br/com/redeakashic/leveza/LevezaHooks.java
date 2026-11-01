@@ -322,7 +322,7 @@ public final class LevezaHooks {
                         + " | estáticos %.0f -> %.0f MiB | texturas avulsas na sessão: %d reduzidas, %.0f -> %.0f MiB",
                 red, seen, mib(ab), mib(aa), mib(sb), mib(sa),
                 uploadsReduced.get(), mib(uploadBefore.get()), mib(uploadAfter.get()))
-                + " | " + fromCache + " vindos do " + LevezaCache.summary());
+                + " | " + fromCache + " vindos do " + LevezaCache.summary() + " | " + ReikaPrefilter.summary());
     }
 
     private static double mib(long px) {

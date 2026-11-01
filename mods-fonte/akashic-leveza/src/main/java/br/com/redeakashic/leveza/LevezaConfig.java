@@ -46,6 +46,7 @@ final class LevezaConfig {
     final boolean reduceReika;
     final boolean verbose;
     final boolean decodeCache;
+    final boolean reikaPrefilter;
     final int decodeCacheMinKb;
     final List<String> ignoredDomains;
     final List<String> ignoredPrefixes;
@@ -74,6 +75,8 @@ final class LevezaConfig {
         this.reduceLargeTextures = bool(p, "reduzir.texturas.grandes", true);
         this.reduceReika = bool(p, "reduzir.reika", true);
         this.verbose = bool(p, "log.detalhado", false);
+        String pre = System.getProperty("akashic.leveza.prefiltro");
+        this.reikaPrefilter = pre != null ? Boolean.parseBoolean(pre) : bool(p, "boot.prefiltro.reika", true);
         String cacheProp = System.getProperty("akashic.leveza.cache");
         this.decodeCache = cacheProp != null ? Boolean.parseBoolean(cacheProp) : bool(p, "cache.decodificacao", false);
         this.decodeCacheMinKb = Math.max(1, intOr(p, "cache.minimo.kb", 32));
@@ -206,6 +209,11 @@ final class LevezaConfig {
             + "# Exemplo de prefixo: chromaticraft:icons/portalring  ou  jurassicraft:textures/entity/\n"
             + "ignorar.dominios=minecraft,akashiccinematic,distanthorizons\n"
             + "ignorar.texturas=\n"
+            + "\n"
+            + "# BOOT - pre-filtro dos transformers ASM do Reika (DragonAPI/RotaryCraft): so chama cada transformer\n"
+            + "# nas classes que contem o que ele procura (anotacao/nome). Resultado identico, boot mais rapido.\n"
+            + "# Desligar sem editar: -Dakashic.leveza.prefiltro=false\n"
+            + "boot.prefiltro.reika=true\n"
             + "\n"
             + "# EXPERIMENTAL - cache em disco (cache/akashic-leveza/) das texturas de atlas ja reduzidas: do 2o boot\n"
             + "# em diante o jogo le a versao pequena em vez de decodificar o PNG grande. No teste com 4 CPUs o ganho\n"
