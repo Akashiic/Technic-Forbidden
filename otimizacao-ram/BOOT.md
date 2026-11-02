@@ -41,9 +41,9 @@
 | Causa | % | Situação |
 |---|---:|---|
 | Transformers ASM do Reika (DragonAPI/RotaryCraft) em **toda** classe carregada | ~20% | Cache testado e **reprovado** (ver abaixo) |
-| Thaumcraft `ThaumcraftCraftingManager.generateTags` | 9,7% | Precisa de patch (candidato ao ThePatcher) |
+| Thaumcraft `ThaumcraftCraftingManager.generateTags` | 9,7% | Índice no ThePatcher beta.50 (abaixo) |
 | GeckoLib `RawGeometryTree.traverse` (modelo de exemplo `optimus`, 2.989 ossos) | ~9% | Override de arquivo: **−4 s** medido (abaixo) |
-| Eln `CraftingRecipes.recipeExists` | 5,4% | Precisa de patch (candidato ao ThePatcher) |
+| Eln `CraftingRecipes.recipeExists` | 5,4% | Índice no ThePatcher beta.50 (abaixo) |
 | Mixins (todos) | 2,6% | Normal |
 
 ### Thaumcraft: `generateTags`
@@ -183,10 +183,37 @@ O resto, nesses logs:
   33 MiB. Ele é para RAM, não para boot. No log, os atlas finais demoraram mais (blocos 17,5 para 23,2 s), mas
   todas as fases ficaram mais lentas nesse boot, então isso não separa o custo do Leveza do resto.
 
+## Thaumcraft e Eln: índices de receitas no Akashic-ThePatcher 1.1.0-beta.50 "RecipeIndex"
+
+Os dois percorriam a lista inteira de receitas (~16.500) para cada item:
+- o Thaumcraft para calcular aspectos (mais de 775 chamadas vindas de RotaryCraft, Thermal, MFR, ChromatiCraft,
+  Extra Utilities...);
+- o Eln só para logar os itens sem receita (373 itens).
+
+A beta.50 dá ao Thaumcraft a lista já filtrada pelo item de saída e responde ao Eln por um índice de saídas e
+ore ids. Os resultados são os mesmos: no cliente real, o modo `-Dakashic.recipeIndex.verify=true` conferiu cada
+resposta contra a varredura completa, com 0 diferenças. Detalhes e testes ficam na pasta da beta.50 no
+repositório AkashicThePatcher.
+
+**A/B no cliente real (3 boots desligado × 3 ligado, cache quente):**
+
+| Callback | Desligado | Ligado |
+|---|---:|---:|
+| Eln, PostInit | 4,4 / 5,1 / 3,6 s | abaixo de 1 s |
+| RotaryCraft, PostInit | 2,8 / 1,9 / 2,2 s | 1,7 / 1,3 / 1,5 s |
+| Extra Utilities, PostInit | 2,9 / 1,6 / 2,3 s | 2,3 / 1,2 / 2,0 s |
+| Thaumcraft, PostInit | 3,5 / 3,6 / 3,8 s | 3,3 / 3,0 / 3,5 s |
+| Thermal Foundation, LoadComplete | 1,23 / 0,82 / 0,66 s | 0,19 / 0,24 / 0,27 s |
+
+Ganho de **~6 a 7 s por boot**: 3,5 a 4 s do Eln e 2 a 3 s dos mods que chamam o Thaumcraft. É bem menos que os 15%
+do JFR. O resto do `generateTags` (a recursão pelos ingredientes) não foi mexido, e 3.732 receitas de classes que
+sobrescrevem `getRecipeOutput` continuam sendo lidas em toda chamada. Kill-switches:
+`-Dakashic.thaumcraftRecipeIndex.disable=true` e `-Dakashic.elnRecipeCheckIndex.disable=true`.
+
 ## O que mais daria ganho (próximos passos)
 
-Thaumcraft `generateTags` e Eln `recipeExists` precisam de patch. Pelo que o GeckoLib (9% no JFR → 4 s
-reais) e o pré-filtro mostraram, as porcentagens do JFR superestimam bastante o tempo de relógio.
+Thaumcraft e Eln já têm índice (beta.50, ~6 a 7 s). O GeckoLib (9% no JFR → 4 s reais), o pré-filtro e agora os
+índices (15% no JFR → 6 a 7 s) mostram que as porcentagens do JFR superestimam bastante o tempo de relógio.
 Qualquer patch novo precisa de A/B no cliente real antes de valer a pena.
 
 ## O que já dá para fazer
